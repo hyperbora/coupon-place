@@ -33,11 +33,13 @@ android {
             dimension "version"
             applicationId "io.hyperbora.couponfree"
             versionNameSuffix "-free"
+            resValue "string", "app_name", "Coupon Place Free"
         }
-        premium {
+        pro {
             dimension "version"
-            applicationId "io.hyperbora.couponpremium"
-            versionNameSuffix "-premium"
+            applicationId "io.hyperbora.couponpro"
+            versionNameSuffix "-pro"
+            resValue "string", "app_name", "Coupon Place Pro"
         }
     }
 

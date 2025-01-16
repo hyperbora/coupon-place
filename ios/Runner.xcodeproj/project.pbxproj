@@ -364,9 +364,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
+				APP_NAME = "Coupon Place Free";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = U58FX698U8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -399,7 +401,7 @@
 			};
 			name = "Debug-free";
 		};
-		22A94E212D2AB51A00181E43 /* Debug-premium */ = {
+		22A94E212D2AB51A00181E43 /* Debug-pro */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -454,31 +456,33 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = "Debug-premium";
+			name = "Debug-pro";
 		};
-		22A94E222D2AB51A00181E43 /* Debug-premium */ = {
+		22A94E222D2AB51A00181E43 /* Debug-pro */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
+				APP_NAME = "Coupon Place Pro";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = U58FX698U8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.hyperbora.couponpremium;
+				PRODUCT_BUNDLE_IDENTIFIER = io.hyperbora.couponpro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
-			name = "Debug-premium";
+			name = "Debug-pro";
 		};
-		22A94E232D2AB51A00181E43 /* Debug-premium */ = {
+		22A94E232D2AB51A00181E43 /* Debug-pro */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -493,9 +497,9 @@
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Runner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Runner";
 			};
-			name = "Debug-premium";
+			name = "Debug-pro";
 		};
-		22A94E242D2AB52600181E43 /* Release-premium */ = {
+		22A94E242D2AB52600181E43 /* Release-pro */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -547,30 +551,32 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
-			name = "Release-premium";
+			name = "Release-pro";
 		};
-		22A94E252D2AB52600181E43 /* Release-premium */ = {
+		22A94E252D2AB52600181E43 /* Release-pro */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
+				APP_NAME = "Coupon Place Pro";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = U58FX698U8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.hyperbora.couponpremium;
+				PRODUCT_BUNDLE_IDENTIFIER = io.hyperbora.couponpro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
-			name = "Release-premium";
+			name = "Release-pro";
 		};
-		22A94E262D2AB52600181E43 /* Release-premium */ = {
+		22A94E262D2AB52600181E43 /* Release-pro */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -583,7 +589,7 @@
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Runner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Runner";
 			};
-			name = "Release-premium";
+			name = "Release-pro";
 		};
 		22A94E272D2AB55300181E43 /* Release-free */ = {
 			isa = XCBuildConfiguration;
@@ -643,9 +649,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
+				APP_NAME = "Coupon Place Free";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = U58FX698U8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -731,9 +739,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
+				APP_NAME = "Coupon Place Free";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = U58FX698U8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -763,7 +773,7 @@
 			};
 			name = "Profile-free";
 		};
-		22A94E2D2D2AB56800181E43 /* Profile-premium */ = {
+		22A94E2D2D2AB56800181E43 /* Profile-pro */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -813,30 +823,32 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
-			name = "Profile-premium";
+			name = "Profile-pro";
 		};
-		22A94E2E2D2AB56800181E43 /* Profile-premium */ = {
+		22A94E2E2D2AB56800181E43 /* Profile-pro */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
+				APP_NAME = "Coupon Place Pro";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = U58FX698U8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.hyperbora.couponpremium;
+				PRODUCT_BUNDLE_IDENTIFIER = io.hyperbora.couponpro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
-			name = "Profile-premium";
+			name = "Profile-pro";
 		};
-		22A94E2F2D2AB56800181E43 /* Profile-premium */ = {
+		22A94E2F2D2AB56800181E43 /* Profile-pro */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -849,7 +861,7 @@
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Runner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Runner";
 			};
-			name = "Profile-premium";
+			name = "Profile-pro";
 		};
 		249021D3217E4FDB00AE95B9 /* Profile */ = {
 			isa = XCBuildConfiguration;
@@ -907,9 +919,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
+				APP_NAME = "Coupon Place";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = U58FX698U8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1086,9 +1100,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
+				APP_NAME = "Coupon Place";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = U58FX698U8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1108,9 +1124,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
+				APP_NAME = "Coupon Place";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = U58FX698U8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1132,14 +1150,14 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				331C8088294A63A400263BE5 /* Debug */,
-				22A94E232D2AB51A00181E43 /* Debug-premium */,
+				22A94E232D2AB51A00181E43 /* Debug-pro */,
 				22A94E202D2AB4DA00181E43 /* Debug-free */,
 				331C8089294A63A400263BE5 /* Release */,
 				22A94E292D2AB55300181E43 /* Release-free */,
-				22A94E262D2AB52600181E43 /* Release-premium */,
+				22A94E262D2AB52600181E43 /* Release-pro */,
 				331C808A294A63A400263BE5 /* Profile */,
 				22A94E2C2D2AB55F00181E43 /* Profile-free */,
-				22A94E2F2D2AB56800181E43 /* Profile-premium */,
+				22A94E2F2D2AB56800181E43 /* Profile-pro */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1148,14 +1166,14 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				97C147031CF9000F007C117D /* Debug */,
-				22A94E212D2AB51A00181E43 /* Debug-premium */,
+				22A94E212D2AB51A00181E43 /* Debug-pro */,
 				22A94E1E2D2AB4DA00181E43 /* Debug-free */,
 				97C147041CF9000F007C117D /* Release */,
 				22A94E272D2AB55300181E43 /* Release-free */,
-				22A94E242D2AB52600181E43 /* Release-premium */,
+				22A94E242D2AB52600181E43 /* Release-pro */,
 				249021D3217E4FDB00AE95B9 /* Profile */,
 				22A94E2A2D2AB55F00181E43 /* Profile-free */,
-				22A94E2D2D2AB56800181E43 /* Profile-premium */,
+				22A94E2D2D2AB56800181E43 /* Profile-pro */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1164,14 +1182,14 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				97C147061CF9000F007C117D /* Debug */,
-				22A94E222D2AB51A00181E43 /* Debug-premium */,
+				22A94E222D2AB51A00181E43 /* Debug-pro */,
 				22A94E1F2D2AB4DA00181E43 /* Debug-free */,
 				97C147071CF9000F007C117D /* Release */,
 				22A94E282D2AB55300181E43 /* Release-free */,
-				22A94E252D2AB52600181E43 /* Release-premium */,
+				22A94E252D2AB52600181E43 /* Release-pro */,
 				249021D4217E4FDB00AE95B9 /* Profile */,
 				22A94E2B2D2AB55F00181E43 /* Profile-free */,
-				22A94E2E2D2AB56800181E43 /* Profile-premium */,
+				22A94E2E2D2AB56800181E43 /* Profile-pro */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
