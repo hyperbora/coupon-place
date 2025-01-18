@@ -19,7 +19,6 @@ import Flutter
             let flavor = Bundle.main.infoDictionary?["App-Flavor"]
             result(flavor)
         })
-        
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 }

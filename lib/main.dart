@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  String? flavor =
+      await const MethodChannel('flavor').invokeMethod<String>('getFlavor');
+
   runApp(const MyApp());
 }
 
