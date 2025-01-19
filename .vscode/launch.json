@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "free",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": ["--flavor", "free", "--target", "lib/main.dart"]
+    },
+    {
+      "name": "pro",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": ["--flavor", "pro", "--target", "lib/main.dart"]
+    }
+  ]
+}
