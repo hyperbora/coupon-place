@@ -1,6 +1,8 @@
 import 'package:coupon_place/flavor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +24,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''),
+        Locale('ko', ''),
+      ],
       home: const MyHomePage(),
     );
   }
@@ -59,29 +71,37 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    final List<String> titles = [
+      localizations.myCoupons,
+      localizations.addCoupon,
+      localizations.expiringSoon,
+      localizations.settings,
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(_titles[_selectedIndex]),
+        title: Text(titles[_selectedIndex]),
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.local_offer),
-            label: 'My Coupons',
+            icon: const Icon(Icons.local_offer),
+            label: localizations.myCoupons,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'Add',
+            icon: const Icon(Icons.add),
+            label: localizations.addCoupon,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.access_time),
-            label: 'Expiring Soon',
+            icon: const Icon(Icons.access_time),
+            label: localizations.expiringSoon,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: const Icon(Icons.settings),
+            label: localizations.settings,
           ),
         ],
         currentIndex: _selectedIndex,

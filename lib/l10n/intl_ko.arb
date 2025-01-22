@@ -1,0 +1,23 @@
+{
+  "@@last_modified": "2025-01-20T23:00:49.214150",
+  "myCoupons": "내 쿠폰",
+  "@myCoupons": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "addCoupon": "추가하기",
+  "@addCoupon": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "expiringSoon": "만료 예정",
+  "@expiringSoon": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "settings": "설정",
+  "@settings": {
+    "type": "text",
+    "placeholders": {}
+  }
+}

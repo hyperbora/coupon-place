@@ -1,0 +1,23 @@
+{
+  "@@last_modified": "2025-01-20T23:00:49.214150",
+  "myCoupons": "My Coupons",
+  "@myCoupons": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "addCoupon": "Add Coupon",
+  "@addCoupon": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "expiringSoon": "Expiring Soon",
+  "@expiringSoon": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "settings": "Settings",
+  "@settings": {
+    "type": "text",
+    "placeholders": {}
+  }
+}
