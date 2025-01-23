@@ -9,7 +9,10 @@ class CouponGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
+    final gridView = GridView.builder(
       padding: const EdgeInsets.all(8.0),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -55,5 +58,7 @@ class CouponGrid extends StatelessWidget {
         );
       },
     );
+
+    return isLandscape ? SafeArea(child: gridView) : gridView;
   }
 }
