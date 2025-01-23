@@ -3,14 +3,14 @@ import '../models/coupon.dart';
 import '../widgets/coupon_grid.dart';
 import '../l10n/app_localizations.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class CouponDashboardPage extends StatefulWidget {
+  const CouponDashboardPage({super.key});
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _CouponDashboardPageState createState() => _CouponDashboardPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _CouponDashboardPageState extends State<CouponDashboardPage> {
   int _selectedIndex = 0;
 
   final List<Coupon> _coupons = [
