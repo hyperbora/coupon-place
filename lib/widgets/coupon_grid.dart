@@ -15,8 +15,8 @@ class CouponGrid extends StatelessWidget {
 
     final gridView = GridView.builder(
       padding: const EdgeInsets.all(8.0),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 300,
         crossAxisSpacing: 8.0,
         mainAxisSpacing: 8.0,
       ),
