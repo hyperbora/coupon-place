@@ -13,17 +13,14 @@ class CouponDashboardPage extends StatefulWidget {
 class _CouponDashboardPageState extends State<CouponDashboardPage> {
   int _selectedIndex = 0;
 
-  final List<Coupon> _coupons = [
-    Coupon(
-        title: '10% Off',
-        description: 'Get 10% off your next purchase',
-        expiryDate: DateTime.now().add(Duration(days: 10))),
-    Coupon(
-        title: 'Free Shipping',
-        description: 'Free shipping on orders over \$50',
-        expiryDate: DateTime.now().add(Duration(days: 5))),
-    // 더 많은 쿠폰 데이터를 추가할 수 있습니다.
-  ];
+  final List<Coupon> _coupons = List.generate(
+    20,
+    (index) => Coupon(
+      title: 'Coupon $index',
+      description: 'Description for coupon $index',
+      expiryDate: DateTime.now().add(Duration(days: index)),
+    ),
+  );
 
   static const List<Widget> _widgetOptions = <Widget>[
     Center(child: Text('My Coupons')),
