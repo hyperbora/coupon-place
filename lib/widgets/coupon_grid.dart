@@ -11,6 +11,7 @@ class CouponGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     final gridView = GridView.builder(
       padding: const EdgeInsets.all(8.0),
@@ -32,6 +33,7 @@ class CouponGrid extends StatelessWidget {
             );
           },
           child: Card(
+            color: isDarkMode ? Colors.grey[800] : Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -39,17 +41,27 @@ class CouponGrid extends StatelessWidget {
                 children: [
                   Text(
                     coupon.title,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: isDarkMode ? Colors.white : Colors.black,
+                    ),
                   ),
                   SizedBox(height: 8),
                   Text(
                     coupon.description,
-                    style: TextStyle(fontSize: 14),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: isDarkMode ? Colors.white70 : Colors.black87,
+                    ),
                   ),
                   Spacer(),
                   Text(
                     'Expiry: ${coupon.expiryDate.toLocal()}',
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: isDarkMode ? Colors.white54 : Colors.grey,
+                    ),
                   ),
                 ],
               ),
