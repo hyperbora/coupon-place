@@ -34,9 +34,10 @@ dependencies:
     sdk: flutter
   intl: ^0.18.1
   drift: ^2.0.0
-  drift_sqflite: ^2.0.0
+  sqflite: ^2.0.0+4
   path_provider: ^2.0.1
   uuid: ^3.0.6
+  path: ^1.8.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
