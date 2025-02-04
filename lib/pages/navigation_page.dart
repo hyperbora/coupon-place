@@ -12,13 +12,6 @@ class NavigationPage extends StatefulWidget {
 class _NavigationPageState extends State<NavigationPage> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    FolderDashboardPage(),
-    Center(child: Text('Add Coupon')),
-    Center(child: Text('Expiring Soon')),
-    Center(child: Text('Settings')),
-  ];
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -35,11 +28,17 @@ class _NavigationPageState extends State<NavigationPage> {
       localizations.settings,
     ];
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(titles[_selectedIndex]),
+    final List<Widget> widgetOptions = <Widget>[
+      FolderDashboardPage(
+        title: titles[0],
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
+      Center(child: Text('Add Coupon')),
+      Center(child: Text('Expiring Soon')),
+      Center(child: Text('Settings')),
+    ];
+
+    return Scaffold(
+      body: widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: [
