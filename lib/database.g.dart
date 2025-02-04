@@ -14,7 +14,7 @@ class $CouponsTable extends Coupons with TableInfo<$CouponsTable, Coupon> {
       'id', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
-      clientDefault: () => Uuid().v4());
+      clientDefault: () => const Uuid().v4());
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
@@ -277,7 +277,7 @@ class $FoldersTable extends Folders with TableInfo<$FoldersTable, Folder> {
       'id', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
-      clientDefault: () => Uuid().v4());
+      clientDefault: () => const Uuid().v4());
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/coupon.dart';
-import '../widgets/coupon_grid.dart';
 import '../l10n/app_localizations.dart';
+import 'folder_dashboard_page.dart';
 
 class CouponDashboardPage extends StatefulWidget {
   const CouponDashboardPage({super.key});
@@ -13,17 +12,8 @@ class CouponDashboardPage extends StatefulWidget {
 class _CouponDashboardPageState extends State<CouponDashboardPage> {
   int _selectedIndex = 0;
 
-  final List<Coupon> _coupons = List.generate(
-    20,
-    (index) => Coupon(
-      title: 'Coupon $index',
-      description: 'Description for coupon $index',
-      expiryDate: DateTime.now().add(Duration(days: index)),
-    ),
-  );
-
   static const List<Widget> _widgetOptions = <Widget>[
-    Center(child: Text('My Coupons')),
+    FolderDashboardPage(),
     Center(child: Text('Add Coupon')),
     Center(child: Text('Expiring Soon')),
     Center(child: Text('Settings')),
@@ -49,9 +39,7 @@ class _CouponDashboardPageState extends State<CouponDashboardPage> {
       appBar: AppBar(
         title: Text(titles[_selectedIndex]),
       ),
-      body: _selectedIndex == 0
-          ? CouponGrid(coupons: _coupons)
-          : _widgetOptions.elementAt(_selectedIndex),
+      body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: [
