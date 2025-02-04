@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import 'folder_dashboard_page.dart';
 
-class CouponDashboardPage extends StatefulWidget {
-  const CouponDashboardPage({super.key});
+class NavigationPage extends StatefulWidget {
+  const NavigationPage({super.key});
 
   @override
-  _CouponDashboardPageState createState() => _CouponDashboardPageState();
+  _NavigationPageState createState() => _NavigationPageState();
 }
 
-class _CouponDashboardPageState extends State<CouponDashboardPage> {
+class _NavigationPageState extends State<NavigationPage> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[

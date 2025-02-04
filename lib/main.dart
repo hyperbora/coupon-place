@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
-import 'pages/coupon_dashboard_page.dart';
+import 'pages/navigation_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         Locale('en', ''),
         Locale('ko', ''),
       ],
-      home: const CouponDashboardPage(),
+      home: const NavigationPage(),
     );
   }
 }
