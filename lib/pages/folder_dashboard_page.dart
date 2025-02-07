@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import '../database.dart';
 
 class FolderDashboardPage extends StatefulWidget {
-  final String title;
-  const FolderDashboardPage({super.key, required this.title});
+  const FolderDashboardPage({super.key});
 
   @override
   _FolderDashboardPageState createState() => _FolderDashboardPageState();
@@ -35,9 +34,6 @@ class _FolderDashboardPageState extends State<FolderDashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: ListView.builder(
         itemCount: _folders.length,
         itemBuilder: (context, index) {

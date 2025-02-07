@@ -12,6 +12,7 @@ class NavigationPage extends StatefulWidget {
 class _NavigationPageState extends State<NavigationPage> {
   int _selectedIndex = 0;
   final int _tabletWidth = 600;
+  final double _tabBarWidth = 500;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -20,9 +21,7 @@ class _NavigationPageState extends State<NavigationPage> {
   }
 
   static final List<Widget> _widgetOptions = <Widget>[
-    FolderDashboardPage(
-      title: 'My Coupons',
-    ),
+    FolderDashboardPage(),
     Center(child: Text('Add Coupon')),
     Center(child: Text('Expiring Soon')),
     Center(child: Text('Settings')),
@@ -33,37 +32,67 @@ class _NavigationPageState extends State<NavigationPage> {
   }
 
   Widget tabletLayout(
-    List<String> titles,
+    AppLocalizations localizations,
   ) {
     return Scaffold(
       body: Row(
         children: [
-          NavigationRail(
-            selectedIndex: _selectedIndex,
-            onDestinationSelected: _onItemTapped,
-            labelType: NavigationRailLabelType.selected,
-            destinations: [
-              NavigationRailDestination(
-                icon: Icon(Icons.local_offer),
-                label: Text(titles[0]),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.add),
-                label: Text(titles[1]),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.access_time),
-                label: Text(titles[2]),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.settings),
-                label: Text(titles[3]),
-              ),
-            ],
-          ),
-          VerticalDivider(thickness: 1, width: 1),
+          // 좌측 패널
           Expanded(
-            child: _widgetOptions.elementAt(_selectedIndex),
+            flex: 2,
+            child: Container(
+              color: Colors.grey[900],
+              child: Column(
+                children: [
+                  // 검색창
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: '검색',
+                        hintStyle: TextStyle(color: Colors.white54),
+                        filled: true,
+                        fillColor: Colors.grey[800],
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        prefixIcon: Icon(Icons.search, color: Colors.white54),
+                      ),
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  // 메뉴 리스트
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        MenuItem(icon: Icons.today, title: '오늘', count: 0),
+                        MenuItem(
+                            icon: Icons.calendar_today, title: '예정', count: 27),
+                        MenuItem(icon: Icons.list, title: '전체', count: 31),
+                        MenuItem(icon: Icons.flag, title: '깃발 표시', count: 1),
+                        Divider(color: Colors.white24),
+                        MenuItem(icon: Icons.check, title: '완료됨'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // 우측 패널
+          Expanded(
+            flex: 5,
+            child: Container(
+              color: Colors.black,
+              child: Center(
+                child: Text(
+                  '모든 미리 알림이 완료됨',
+                  style: TextStyle(color: Colors.white70, fontSize: 18),
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -71,7 +100,7 @@ class _NavigationPageState extends State<NavigationPage> {
   }
 
   Widget smartPhoneLayout(
-    List<String> titles,
+    AppLocalizations localizations,
   ) {
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
@@ -83,19 +112,19 @@ class _NavigationPageState extends State<NavigationPage> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.local_offer),
-            label: titles[0],
+            label: localizations.myCoupons,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
-            label: titles[1],
+            label: localizations.addCoupon,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.access_time),
-            label: titles[2],
+            label: localizations.expiringSoon,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: titles[3],
+            label: localizations.settings,
           ),
         ],
         currentIndex: _selectedIndex,
@@ -107,19 +136,37 @@ class _NavigationPageState extends State<NavigationPage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final List<String> titles = [
-      localizations.myCoupons,
-      localizations.addCoupon,
-      localizations.expiringSoon,
-      localizations.settings,
-    ];
 
     return LayoutBuilder(builder: (context, constraints) {
       if (_isTablet(constraints)) {
-        return tabletLayout(titles);
+        return tabletLayout(localizations);
       } else {
-        return smartPhoneLayout(titles);
+        return smartPhoneLayout(localizations);
       }
     });
+  }
+}
+
+class MenuItem extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final int? count;
+
+  const MenuItem({required this.icon, required this.title, this.count});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.white),
+      title: Text(title, style: TextStyle(color: Colors.white)),
+      trailing: count != null
+          ? CircleAvatar(
+              backgroundColor: Colors.grey[700],
+              radius: 12,
+              child: Text('$count',
+                  style: TextStyle(color: Colors.white, fontSize: 12)),
+            )
+          : null,
+    );
   }
 }
