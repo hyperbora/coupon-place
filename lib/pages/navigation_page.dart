@@ -12,20 +12,13 @@ class NavigationPage extends StatefulWidget {
 class _NavigationPageState extends State<NavigationPage> {
   int _selectedIndex = 0;
   final int _tabletWidth = 600;
-  final double _tabBarWidth = 500;
+  final List<String> userFolders = ['쇼핑', '음식', '식당', '취미'];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
-
-  static final List<Widget> _widgetOptions = <Widget>[
-    FolderDashboardPage(),
-    Center(child: Text('Add Coupon')),
-    Center(child: Text('Expiring Soon')),
-    Center(child: Text('Settings')),
-  ];
 
   bool _isTablet(BoxConstraints constraints) {
     return constraints.maxWidth >= _tabletWidth;
@@ -59,12 +52,26 @@ class _NavigationPageState extends State<NavigationPage> {
           Expanded(
             child: ListView(
               children: [
-                MenuItem(icon: Icons.today, title: '오늘', count: 0),
-                MenuItem(icon: Icons.calendar_today, title: '예정', count: 0),
                 MenuItem(icon: Icons.list, title: '전체', count: 0),
-                MenuItem(icon: Icons.flag, title: '깃발 표시', count: 0),
+                MenuItem(icon: Icons.access_time, title: '만료 임박', count: 0),
+                MenuItem(
+                    icon: Icons.check_circle_outline,
+                    title: '사용한 쿠폰',
+                    count: 0),
+                MenuItem(
+                    icon: Icons.start_outlined, title: '즐겨찾기 쿠폰', count: 0),
                 Divider(color: Colors.white24),
-                MenuItem(icon: Icons.check, title: '완료됨'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text('내 폴더',
+                      style: TextStyle(color: Colors.white70, fontSize: 14)),
+                ),
+                ...userFolders
+                    .map(
+                        (folder) => MenuItem(icon: Icons.folder, title: folder))
+                    .toList(),
+                Divider(color: Colors.white24),
+                MenuItem(icon: Icons.settings, title: '설정'),
               ],
             ),
           ),
