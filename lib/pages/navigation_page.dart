@@ -31,6 +31,48 @@ class _NavigationPageState extends State<NavigationPage> {
     return constraints.maxWidth >= _tabletWidth;
   }
 
+  Widget _sidePanel() {
+    return Container(
+      color: Colors.grey[900],
+      child: Column(
+        children: [
+          // 검색창
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: '검색',
+                hintStyle: TextStyle(color: Colors.white54),
+                filled: true,
+                fillColor: Colors.grey[800],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide.none,
+                ),
+                prefixIcon: Icon(Icons.search, color: Colors.white54),
+                contentPadding: EdgeInsets.symmetric(vertical: 8.0),
+              ),
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          // 메뉴 리스트
+          Expanded(
+            child: ListView(
+              children: [
+                MenuItem(icon: Icons.today, title: '오늘', count: 0),
+                MenuItem(icon: Icons.calendar_today, title: '예정', count: 0),
+                MenuItem(icon: Icons.list, title: '전체', count: 0),
+                MenuItem(icon: Icons.flag, title: '깃발 표시', count: 0),
+                Divider(color: Colors.white24),
+                MenuItem(icon: Icons.check, title: '완료됨'),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget tabletLayout(
     AppLocalizations localizations,
   ) {
@@ -41,47 +83,7 @@ class _NavigationPageState extends State<NavigationPage> {
             // 좌측 패널
             Expanded(
               flex: 2,
-              child: Container(
-                color: Colors.grey[900],
-                child: Column(
-                  children: [
-                    // 검색창
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: '검색',
-                          hintStyle: TextStyle(color: Colors.white54),
-                          filled: true,
-                          fillColor: Colors.grey[800],
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          prefixIcon: Icon(Icons.search, color: Colors.white54),
-                        ),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    // 메뉴 리스트
-                    Expanded(
-                      child: ListView(
-                        children: [
-                          MenuItem(icon: Icons.today, title: '오늘', count: 0),
-                          MenuItem(
-                              icon: Icons.calendar_today,
-                              title: '예정',
-                              count: 27),
-                          MenuItem(icon: Icons.list, title: '전체', count: 31),
-                          MenuItem(icon: Icons.flag, title: '깃발 표시', count: 1),
-                          Divider(color: Colors.white24),
-                          MenuItem(icon: Icons.check, title: '완료됨'),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              child: _sidePanel(),
             ),
 
             // 우측 패널
@@ -106,33 +108,9 @@ class _NavigationPageState extends State<NavigationPage> {
   Widget smartPhoneLayout(
     AppLocalizations localizations,
   ) {
-    return Scaffold(
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.teal,
-        selectedItemColor: Colors.amber[800],
-        unselectedItemColor: Colors.white,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_offer),
-            label: localizations.myCoupons,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: localizations.addCoupon,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.access_time),
-            label: localizations.expiringSoon,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: localizations.settings,
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+    return SafeArea(
+      child: Scaffold(
+        body: _sidePanel(),
       ),
     );
   }
