@@ -30,17 +30,17 @@ class _NavigationPageState extends State<NavigationPage> {
       child: TextField(
         decoration: InputDecoration(
           hintText: '검색',
-          hintStyle: TextStyle(color: Colors.white54),
+          hintStyle: TextStyle(color: Colors.black54),
           filled: true,
-          fillColor: Colors.grey[800],
+          fillColor: Colors.white,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide.none,
           ),
-          prefixIcon: Icon(Icons.search, color: Colors.white54),
+          prefixIcon: Icon(Icons.search, color: Colors.black54),
           contentPadding: EdgeInsets.symmetric(vertical: 4.0),
         ),
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.black),
       ),
     );
   }
@@ -53,11 +53,11 @@ class _NavigationPageState extends State<NavigationPage> {
           MenuItem(icon: Icons.access_time, title: '만료 임박', count: 0),
           MenuItem(icon: Icons.check_circle_outline, title: '사용한 쿠폰', count: 0),
           MenuItem(icon: Icons.favorite, title: '즐겨찾기', count: 0),
-          Divider(color: Colors.white24),
+          Divider(color: Colors.black26),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text('내 폴더',
-                style: TextStyle(color: Colors.white70, fontSize: 14)),
+                style: TextStyle(color: Colors.black87, fontSize: 14)),
           ),
           ...userFolders
               .map((folder) => MenuItem(icon: Icons.folder, title: folder))
@@ -69,9 +69,10 @@ class _NavigationPageState extends State<NavigationPage> {
 
   Widget _bottomMenu() {
     return Container(
-      color: Colors.grey[850], // 배경색 추가
+      color: Colors.white, // 배경색 변경
       child: Column(
         children: [
+          Divider(color: Colors.black26), // 구분선 추가
           Padding(
             padding: const EdgeInsets.all(1.0),
             child: Row(
@@ -80,8 +81,8 @@ class _NavigationPageState extends State<NavigationPage> {
                 // 폴더 추가 버튼 (아이콘 + 텍스트)
                 Expanded(
                   child: ListTile(
-                    leading: Icon(Icons.add, color: Colors.white),
-                    title: Text('폴더 추가', style: TextStyle(color: Colors.white)),
+                    leading: Icon(Icons.add, color: Colors.black),
+                    title: Text('폴더 추가', style: TextStyle(color: Colors.black)),
                     onTap: () {
                       // 폴더 추가 화면으로 이동하는 로직
                       showDialog(
@@ -115,7 +116,7 @@ class _NavigationPageState extends State<NavigationPage> {
                   onPressed: () {
                     // 설정 화면으로 이동하는 로직
                   },
-                  icon: Icon(Icons.settings, color: Colors.white),
+                  icon: Icon(Icons.settings, color: Colors.black),
                 ),
               ],
             ),
@@ -127,7 +128,7 @@ class _NavigationPageState extends State<NavigationPage> {
 
   Widget _sidePanel() {
     return Container(
-      color: Colors.grey[900],
+      color: Colors.white,
       child: Column(
         children: [
           _searchField(),
@@ -155,11 +156,11 @@ class _NavigationPageState extends State<NavigationPage> {
             Expanded(
               flex: 5,
               child: Container(
-                color: Colors.black,
+                color: Colors.white,
                 child: Center(
                   child: Text(
                     '모든 미리 알림이 완료됨',
-                    style: TextStyle(color: Colors.white70, fontSize: 18),
+                    style: TextStyle(color: Colors.black87, fontSize: 18),
                   ),
                 ),
               ),
@@ -204,14 +205,14 @@ class MenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: Colors.white),
-      title: Text(title, style: TextStyle(color: Colors.white)),
+      leading: Icon(icon, color: Colors.black),
+      title: Text(title, style: TextStyle(color: Colors.black)),
       trailing: count != null
           ? CircleAvatar(
-              backgroundColor: Colors.grey[700],
+              backgroundColor: Colors.grey[300],
               radius: 12,
               child: Text('$count',
-                  style: TextStyle(color: Colors.white, fontSize: 12)),
+                  style: TextStyle(color: Colors.black, fontSize: 12)),
             )
           : null,
     );
