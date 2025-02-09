@@ -68,50 +68,57 @@ class _NavigationPageState extends State<NavigationPage> {
   }
 
   Widget _bottomMenu() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+      color: Colors.grey[850], // 배경색 추가
+      child: Column(
         children: [
-          // 폴더 추가 버튼 (아이콘 + 텍스트)
-          Expanded(
-            child: ListTile(
-              leading: Icon(Icons.add, color: Colors.white),
-              title: Text('폴더 추가', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                // 폴더 추가 화면으로 이동하는 로직
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Text('폴더 추가'),
-                      content: TextField(
-                        decoration: InputDecoration(hintText: '새 폴더 이름'),
-                      ),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            // 폴더 추가 로직
-                            Navigator.pop(context);
-                          },
-                          child: Text('확인'),
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('취소'),
-                        ),
-                      ],
-                    );
+          Padding(
+            padding: const EdgeInsets.all(1.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // 폴더 추가 버튼 (아이콘 + 텍스트)
+                Expanded(
+                  child: ListTile(
+                    leading: Icon(Icons.add, color: Colors.white),
+                    title: Text('폴더 추가', style: TextStyle(color: Colors.white)),
+                    onTap: () {
+                      // 폴더 추가 화면으로 이동하는 로직
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('폴더 추가'),
+                            content: TextField(
+                              decoration: InputDecoration(hintText: '새 폴더 이름'),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  // 폴더 추가 로직
+                                  Navigator.pop(context);
+                                },
+                                child: Text('확인'),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text('취소'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    // 설정 화면으로 이동하는 로직
                   },
-                );
-              },
+                  icon: Icon(Icons.settings, color: Colors.white),
+                ),
+              ],
             ),
-          ),
-          IconButton(
-            onPressed: () {
-              // 설정 화면으로 이동하는 로직
-            },
-            icon: Icon(Icons.settings, color: Colors.white),
           ),
         ],
       ),
