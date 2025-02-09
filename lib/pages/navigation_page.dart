@@ -151,7 +151,11 @@ class _NavigationPageState extends State<NavigationPage> {
               flex: 2,
               child: _sidePanel(),
             ),
-
+            VerticalDivider(
+              color: Colors.black26,
+              width: 1,
+              thickness: 1,
+            ),
             // 우측 패널
             Expanded(
               flex: 5,
