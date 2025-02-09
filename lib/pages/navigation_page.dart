@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import '../l10n/app_localizations.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -24,7 +23,10 @@ class _NavigationPageState extends State<NavigationPage> {
     return constraints.maxWidth >= _tabletWidth;
   }
 
-  Widget _searchField() {
+  Widget _searchField(
+    BuildContext context,
+    AppLocalizations localizations,
+  ) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
@@ -45,7 +47,10 @@ class _NavigationPageState extends State<NavigationPage> {
     );
   }
 
-  Widget _menuList() {
+  Widget _menuList(
+    BuildContext context,
+    AppLocalizations localizations,
+  ) {
     return Expanded(
       child: ListView(
         children: [
@@ -67,7 +72,10 @@ class _NavigationPageState extends State<NavigationPage> {
     );
   }
 
-  Widget _bottomMenu() {
+  Widget _bottomMenu(
+    BuildContext context,
+    AppLocalizations localizations,
+  ) {
     return Container(
       color: Colors.white, // 배경색 변경
       child: Column(
@@ -126,20 +134,24 @@ class _NavigationPageState extends State<NavigationPage> {
     );
   }
 
-  Widget _sidePanel() {
+  Widget _sidePanel(
+    BuildContext context,
+    AppLocalizations localizations,
+  ) {
     return Container(
       color: Colors.white,
       child: Column(
         children: [
-          _searchField(),
-          _menuList(),
-          _bottomMenu(),
+          _searchField(context, localizations),
+          _menuList(context, localizations),
+          _bottomMenu(context, localizations),
         ],
       ),
     );
   }
 
   Widget tabletLayout(
+    BuildContext context,
     AppLocalizations localizations,
   ) {
     return SafeArea(
@@ -149,7 +161,7 @@ class _NavigationPageState extends State<NavigationPage> {
             // 좌측 패널
             Expanded(
               flex: 2,
-              child: _sidePanel(),
+              child: _sidePanel(context, localizations),
             ),
             VerticalDivider(
               color: Colors.black26,
@@ -163,7 +175,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 color: Colors.white,
                 child: Center(
                   child: Text(
-                    '모든 미리 알림이 완료됨',
+                    '목록',
                     style: TextStyle(color: Colors.black87, fontSize: 18),
                   ),
                 ),
@@ -176,11 +188,12 @@ class _NavigationPageState extends State<NavigationPage> {
   }
 
   Widget smartPhoneLayout(
+    BuildContext context,
     AppLocalizations localizations,
   ) {
     return SafeArea(
       child: Scaffold(
-        body: _sidePanel(),
+        body: _sidePanel(context, localizations),
       ),
     );
   }
@@ -191,9 +204,9 @@ class _NavigationPageState extends State<NavigationPage> {
 
     return LayoutBuilder(builder: (context, constraints) {
       if (_isTablet(constraints)) {
-        return tabletLayout(localizations);
+        return tabletLayout(context, localizations);
       } else {
-        return smartPhoneLayout(localizations);
+        return smartPhoneLayout(context, localizations);
       }
     });
   }
