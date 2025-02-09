@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import '../l10n/app_localizations.dart';
-import 'folder_dashboard_page.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
@@ -24,57 +24,108 @@ class _NavigationPageState extends State<NavigationPage> {
     return constraints.maxWidth >= _tabletWidth;
   }
 
+  Widget _searchField() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextField(
+        decoration: InputDecoration(
+          hintText: '검색',
+          hintStyle: TextStyle(color: Colors.white54),
+          filled: true,
+          fillColor: Colors.grey[800],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide.none,
+          ),
+          prefixIcon: Icon(Icons.search, color: Colors.white54),
+          contentPadding: EdgeInsets.symmetric(vertical: 4.0),
+        ),
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+
+  Widget _menuList() {
+    return Expanded(
+      child: ListView(
+        children: [
+          MenuItem(icon: Icons.list, title: '전체', count: 0),
+          MenuItem(icon: Icons.access_time, title: '만료 임박', count: 0),
+          MenuItem(icon: Icons.check_circle_outline, title: '사용한 쿠폰', count: 0),
+          MenuItem(icon: Icons.favorite, title: '즐겨찾기', count: 0),
+          Divider(color: Colors.white24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text('내 폴더',
+                style: TextStyle(color: Colors.white70, fontSize: 14)),
+          ),
+          ...userFolders
+              .map((folder) => MenuItem(icon: Icons.folder, title: folder))
+              .toList(),
+        ],
+      ),
+    );
+  }
+
+  Widget _bottomMenu() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // 폴더 추가 버튼 (아이콘 + 텍스트)
+          Expanded(
+            child: ListTile(
+              leading: Icon(Icons.add, color: Colors.white),
+              title: Text('폴더 추가', style: TextStyle(color: Colors.white)),
+              onTap: () {
+                // 폴더 추가 화면으로 이동하는 로직
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text('폴더 추가'),
+                      content: TextField(
+                        decoration: InputDecoration(hintText: '새 폴더 이름'),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            // 폴더 추가 로직
+                            Navigator.pop(context);
+                          },
+                          child: Text('확인'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text('취소'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              // 설정 화면으로 이동하는 로직
+            },
+            icon: Icon(Icons.settings, color: Colors.white),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _sidePanel() {
     return Container(
       color: Colors.grey[900],
       child: Column(
         children: [
-          // 검색창
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: '검색',
-                hintStyle: TextStyle(color: Colors.white54),
-                filled: true,
-                fillColor: Colors.grey[800],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide.none,
-                ),
-                prefixIcon: Icon(Icons.search, color: Colors.white54),
-                contentPadding: EdgeInsets.symmetric(vertical: 8.0),
-              ),
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          // 메뉴 리스트
-          Expanded(
-            child: ListView(
-              children: [
-                MenuItem(icon: Icons.list, title: '전체', count: 0),
-                MenuItem(icon: Icons.access_time, title: '만료 임박', count: 0),
-                MenuItem(
-                    icon: Icons.check_circle_outline,
-                    title: '사용한 쿠폰',
-                    count: 0),
-                MenuItem(
-                    icon: Icons.start_outlined, title: '즐겨찾기 쿠폰', count: 0),
-                Divider(color: Colors.white24),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text('내 폴더',
-                      style: TextStyle(color: Colors.white70, fontSize: 14)),
-                ),
-                ...userFolders
-                    .map(
-                        (folder) => MenuItem(icon: Icons.folder, title: folder))
-                    .toList(),
-                Divider(color: Colors.white24),
-                MenuItem(icon: Icons.settings, title: '설정'),
-              ],
-            ),
-          ),
+          _searchField(),
+          _menuList(),
+          _bottomMenu(),
         ],
       ),
     );
