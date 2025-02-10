@@ -28,6 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
       'addCoupon': MessageLookupByLibrary.simpleMessage('추가하기'),
     'expiringSoon': MessageLookupByLibrary.simpleMessage('만료 예정'),
     'myCoupons': MessageLookupByLibrary.simpleMessage('내 쿠폰'),
+    'searchHint': MessageLookupByLibrary.simpleMessage('검색'),
     'settings': MessageLookupByLibrary.simpleMessage('설정')
   };
 }

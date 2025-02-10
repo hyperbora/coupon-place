@@ -1,5 +1,6 @@
 {
-  "@@last_modified": "2025-01-20T23:00:49.214150",
+  "@@locale": "en",
+  "@@last_modified": "2025-02-10T22:46:55.786484",
   "myCoupons": "My Coupons",
   "@myCoupons": {
     "type": "text",
@@ -17,6 +18,11 @@
   },
   "settings": "Settings",
   "@settings": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "searchHint": "Search",
+  "@searchHint": {
     "type": "text",
     "placeholders": {}
   }

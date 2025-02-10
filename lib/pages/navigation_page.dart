@@ -24,12 +24,13 @@ class _NavigationPageState extends State<NavigationPage> {
     return constraints.maxWidth >= _tabletWidth;
   }
 
-  Widget _searchField(BuildContext context) {
+  Widget _searchField() {
+    final localizations = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
         decoration: InputDecoration(
-          hintText: '검색',
+          hintText: localizations.searchHint,
           hintStyle: TextStyle(color: Theme.of(context).hintColor),
           filled: true,
           fillColor: Theme.of(context).colorScheme.surface,
@@ -46,7 +47,7 @@ class _NavigationPageState extends State<NavigationPage> {
     );
   }
 
-  Widget _menuList(BuildContext context) {
+  Widget _menuList() {
     return Expanded(
       child: ListView(
         children: [
@@ -70,7 +71,7 @@ class _NavigationPageState extends State<NavigationPage> {
     );
   }
 
-  Widget _bottomMenu(BuildContext context) {
+  Widget _bottomMenu() {
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor, // 배경색 변경
       child: Column(
@@ -108,14 +109,13 @@ class _NavigationPageState extends State<NavigationPage> {
                             actions: <Widget>[
                               TextButton(
                                 onPressed: () {
-                                  // 폴더 추가 로직
                                   Navigator.pop(context);
                                 },
-                                child: Text('확인'),
+                                child: Text('취소'),
                               ),
                               TextButton(
                                 onPressed: () => Navigator.pop(context),
-                                child: Text('취소'),
+                                child: Text('확인'),
                               ),
                             ],
                           );
@@ -139,20 +139,22 @@ class _NavigationPageState extends State<NavigationPage> {
     );
   }
 
-  Widget _sidePanel(BuildContext context) {
+  Widget _sidePanel() {
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Column(
         children: [
-          _searchField(context),
-          _menuList(context),
-          _bottomMenu(context),
+          _searchField(),
+          _menuList(),
+          _bottomMenu(),
         ],
       ),
     );
   }
 
-  Widget tabletLayout(AppLocalizations localizations) {
+  Widget tabletLayout() {
+    final localizations = AppLocalizations.of(context)!;
+
     return SafeArea(
       child: Scaffold(
         body: Row(
@@ -160,7 +162,7 @@ class _NavigationPageState extends State<NavigationPage> {
             // 좌측 패널
             Expanded(
               flex: 2,
-              child: _sidePanel(context),
+              child: _sidePanel(),
             ),
             VerticalDivider(
               color: Theme.of(context).dividerColor,
@@ -188,23 +190,21 @@ class _NavigationPageState extends State<NavigationPage> {
     );
   }
 
-  Widget smartPhoneLayout(AppLocalizations localizations) {
+  Widget smartPhoneLayout() {
     return SafeArea(
       child: Scaffold(
-        body: _sidePanel(context),
+        body: _sidePanel(),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
-
     return LayoutBuilder(builder: (context, constraints) {
       if (_isTablet(constraints)) {
-        return tabletLayout(localizations);
+        return tabletLayout();
       } else {
-        return smartPhoneLayout(localizations);
+        return smartPhoneLayout();
       }
     });
   }

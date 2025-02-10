@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'messages_all.dart'; // 추가된 부분
+import 'messages_all.dart';
 
 class AppLocalizations {
   static AppLocalizations? of(BuildContext context) {
@@ -15,6 +15,7 @@ class AppLocalizations {
   String get expiringSoon =>
       Intl.message('Expiring Soon', name: 'expiringSoon');
   String get settings => Intl.message('Settings', name: 'settings');
+  String get searchHint => Intl.message('Search Hint', name: 'searchHint');
 }
 
 class _AppLocalizationsDelegate
@@ -28,7 +29,7 @@ class _AppLocalizationsDelegate
   Future<AppLocalizations> load(Locale locale) async {
     final String name = locale.languageCode;
     final String localeName = Intl.canonicalizedLocale(name);
-    await initializeMessages(localeName); // 수정된 부분
+    await initializeMessages(localeName);
     Intl.defaultLocale = localeName;
     return AppLocalizations();
   }

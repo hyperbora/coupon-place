@@ -28,6 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
       'addCoupon': MessageLookupByLibrary.simpleMessage('Add Coupon'),
     'expiringSoon': MessageLookupByLibrary.simpleMessage('Expiring Soon'),
     'myCoupons': MessageLookupByLibrary.simpleMessage('My Coupons'),
+    'searchHint': MessageLookupByLibrary.simpleMessage('Search'),
     'settings': MessageLookupByLibrary.simpleMessage('Settings')
   };
 }
