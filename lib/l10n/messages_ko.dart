@@ -26,8 +26,18 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static Map<String, dynamic> _notInlinedMessages(_) => {
       'addCoupon': MessageLookupByLibrary.simpleMessage('추가하기'),
+    'addFolder': MessageLookupByLibrary.simpleMessage('폴더 추가'),
+    'cancel': MessageLookupByLibrary.simpleMessage('취소'),
+    'confirm': MessageLookupByLibrary.simpleMessage('확인'),
     'expiringSoon': MessageLookupByLibrary.simpleMessage('만료 예정'),
+    'list': MessageLookupByLibrary.simpleMessage('목록'),
+    'menuAllCoupons': MessageLookupByLibrary.simpleMessage('전체'),
+    'menuExpiringSoon': MessageLookupByLibrary.simpleMessage('만료 임박'),
+    'menuFavorites': MessageLookupByLibrary.simpleMessage('즐겨찾기'),
+    'menuUsedCoupons': MessageLookupByLibrary.simpleMessage('사용한 쿠폰'),
     'myCoupons': MessageLookupByLibrary.simpleMessage('내 쿠폰'),
+    'myFolder': MessageLookupByLibrary.simpleMessage('내 폴더'),
+    'newFolderNameHint': MessageLookupByLibrary.simpleMessage('새 폴더 이름'),
     'searchHint': MessageLookupByLibrary.simpleMessage('검색'),
     'settings': MessageLookupByLibrary.simpleMessage('설정')
   };

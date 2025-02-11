@@ -26,8 +26,18 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static Map<String, dynamic> _notInlinedMessages(_) => {
       'addCoupon': MessageLookupByLibrary.simpleMessage('Add Coupon'),
+    'addFolder': MessageLookupByLibrary.simpleMessage('Add Folder'),
+    'cancel': MessageLookupByLibrary.simpleMessage('cancel'),
+    'confirm': MessageLookupByLibrary.simpleMessage('confirm'),
     'expiringSoon': MessageLookupByLibrary.simpleMessage('Expiring Soon'),
+    'list': MessageLookupByLibrary.simpleMessage('list'),
+    'menuAllCoupons': MessageLookupByLibrary.simpleMessage('All Coupons'),
+    'menuExpiringSoon': MessageLookupByLibrary.simpleMessage('Expiring Soon'),
+    'menuFavorites': MessageLookupByLibrary.simpleMessage('Favorites'),
+    'menuUsedCoupons': MessageLookupByLibrary.simpleMessage('Used Coupons'),
     'myCoupons': MessageLookupByLibrary.simpleMessage('My Coupons'),
+    'myFolder': MessageLookupByLibrary.simpleMessage('My Folder'),
+    'newFolderNameHint': MessageLookupByLibrary.simpleMessage('New Folder Name'),
     'searchHint': MessageLookupByLibrary.simpleMessage('Search'),
     'settings': MessageLookupByLibrary.simpleMessage('Settings')
   };

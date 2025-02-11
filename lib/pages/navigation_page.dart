@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import '../l10n/app_localizations.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -10,15 +9,8 @@ class NavigationPage extends StatefulWidget {
 }
 
 class _NavigationPageState extends State<NavigationPage> {
-  int _selectedIndex = 0;
   final int _tabletWidth = 600;
   final List<String> userFolders = ['쇼핑', '음식', '식당', '취미'];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   bool _isTablet(BoxConstraints constraints) {
     return constraints.maxWidth >= _tabletWidth;
@@ -48,74 +40,85 @@ class _NavigationPageState extends State<NavigationPage> {
   }
 
   Widget _menuList() {
+    final localizations = AppLocalizations.of(context)!;
     return Expanded(
       child: ListView(
         children: [
-          MenuItem(icon: Icons.list, title: '전체', count: 0),
-          MenuItem(icon: Icons.access_time, title: '만료 임박', count: 0),
-          MenuItem(icon: Icons.check_circle_outline, title: '사용한 쿠폰', count: 0),
-          MenuItem(icon: Icons.favorite, title: '즐겨찾기', count: 0),
+          MenuItem(
+              icon: Icons.list, title: localizations.menuAllCoupons, count: 0),
+          MenuItem(
+              icon: Icons.access_time,
+              title: localizations.menuExpiringSoon,
+              count: 0),
+          MenuItem(
+              icon: Icons.check_circle_outline,
+              title: localizations.menuUsedCoupons,
+              count: 0),
+          MenuItem(
+              icon: Icons.favorite,
+              title: localizations.menuFavorites,
+              count: 0),
           Divider(color: Theme.of(context).dividerColor),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text('내 폴더',
+            child: Text(localizations.myFolder,
                 style: TextStyle(
                     color: Theme.of(context).textTheme.bodyMedium?.color,
                     fontSize: 14)),
           ),
           ...userFolders
-              .map((folder) => MenuItem(icon: Icons.folder, title: folder))
-              .toList(),
+              .map((folder) => MenuItem(icon: Icons.folder, title: folder)),
         ],
       ),
     );
   }
 
   Widget _bottomMenu() {
+    final localizations = AppLocalizations.of(context)!;
+
     return Container(
-      color: Theme.of(context).scaffoldBackgroundColor, // 배경색 변경
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Column(
         children: [
-          Divider(color: Theme.of(context).dividerColor), // 구분선 추가
+          Divider(color: Theme.of(context).dividerColor),
           Padding(
             padding: const EdgeInsets.all(1.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // 폴더 추가 버튼 (아이콘 + 텍스트)
                 Expanded(
                   child: ListTile(
                     leading: Icon(Icons.add,
                         color: Theme.of(context).iconTheme.color),
-                    title: Text('폴더 추가',
+                    title: Text(localizations.addFolder,
                         style: TextStyle(
                             color:
                                 Theme.of(context).textTheme.bodyMedium?.color)),
                     onTap: () {
-                      // 폴더 추가 화면으로 이동하는 로직
                       showDialog(
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: Text('폴더 추가',
+                            title: Text(localizations.addFolder,
                                 style: TextStyle(
                                     color: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
                                         ?.color)),
                             content: TextField(
-                              decoration: InputDecoration(hintText: '새 폴더 이름'),
+                              decoration: InputDecoration(
+                                  hintText: localizations.newFolderNameHint),
                             ),
                             actions: <Widget>[
                               TextButton(
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                child: Text('취소'),
+                                child: Text(localizations.cancel),
                               ),
                               TextButton(
                                 onPressed: () => Navigator.pop(context),
-                                child: Text('확인'),
+                                child: Text(localizations.confirm),
                               ),
                             ],
                           );
@@ -159,7 +162,6 @@ class _NavigationPageState extends State<NavigationPage> {
       child: Scaffold(
         body: Row(
           children: [
-            // 좌측 패널
             Expanded(
               flex: 2,
               child: _sidePanel(),
@@ -169,14 +171,13 @@ class _NavigationPageState extends State<NavigationPage> {
               width: 1,
               thickness: 1,
             ),
-            // 우측 패널
             Expanded(
               flex: 5,
               child: Container(
                 color: Theme.of(context).scaffoldBackgroundColor,
                 child: Center(
                   child: Text(
-                    '목록',
+                    localizations.list,
                     style: TextStyle(
                         color: Theme.of(context).textTheme.bodyMedium?.color,
                         fontSize: 18),

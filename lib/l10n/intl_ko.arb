@@ -25,5 +25,55 @@
   "@searchHint": {
     "type": "text",
     "placeholders": {}
+  },
+  "menuAllCoupons": "전체",
+  "@menuAllCoupons": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "menuExpiringSoon": "만료 임박",
+  "@menuExpiringSoon": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "menuUsedCoupons": "사용한 쿠폰",
+  "@menuUsedCoupons": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "menuFavorites": "즐겨찾기",
+  "@menuFavorites": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "myFolder": "내 폴더",
+  "@myFolder": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "addFolder": "폴더 추가",
+  "@addFolder": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "newFolderNameHint": "새 폴더 이름",
+  "@newFolderNameHint": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "confirm": "확인",
+  "@confirm": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "cancel": "취소",
+  "@cancel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "list": "목록",
+  "@list": {
+    "type": "text",
+    "placeholders": {}
   }
 }

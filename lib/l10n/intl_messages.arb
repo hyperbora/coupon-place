@@ -1,6 +1,5 @@
 {
-  "@@locale": "en",
-  "@@last_modified": "2025-02-10T22:46:55.786484",
+  "@@last_modified": "2025-02-11T22:19:43.564807",
   "myCoupons": "My Coupons",
   "@myCoupons": {
     "type": "text",
@@ -23,6 +22,56 @@
   },
   "searchHint": "Search",
   "@searchHint": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "menuAllCoupons": "All Coupons",
+  "@menuAllCoupons": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "menuExpiringSoon": "Expiring Soon",
+  "@menuExpiringSoon": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "menuUsedCoupons": "Used Coupons",
+  "@menuUsedCoupons": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "menuFavorites": "Favorites",
+  "@menuFavorites": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "myFolder": "My Folder",
+  "@myFolder": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "addFolder": "Add Folder",
+  "@addFolder": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "newFolderNameHint": "New Folder Name",
+  "@newFolderNameHint": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "confirm": "confirm",
+  "@confirm": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "cancel": "cancel",
+  "@cancel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "list": "list",
+  "@list": {
     "type": "text",
     "placeholders": {}
   }
