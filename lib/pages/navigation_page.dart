@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
+import '../widgets/menu_item.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
@@ -208,30 +209,5 @@ class _NavigationPageState extends State<NavigationPage> {
         return smartPhoneLayout();
       }
     });
-  }
-}
-
-class MenuItem extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final int? count;
-
-  const MenuItem({required this.icon, required this.title, this.count});
-
-  @override
-  Widget build(BuildContext context) {
-    TextScaler textScaler = MediaQuery.textScalerOf(context);
-
-    TextStyle trailingStyle = TextStyle(
-      color: Theme.of(context).textTheme.bodyMedium?.color,
-      fontSize: textScaler.scale(16),
-    );
-    return ListTile(
-      leading: Icon(icon, color: Theme.of(context).iconTheme.color),
-      title: Text(title,
-          style:
-              TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color)),
-      trailing: count != null ? Text('$count', style: trailingStyle) : null,
-    );
   }
 }
