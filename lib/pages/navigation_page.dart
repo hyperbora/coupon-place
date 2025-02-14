@@ -11,7 +11,7 @@ class NavigationPage extends StatefulWidget {
 
 class _NavigationPageState extends State<NavigationPage> {
   final int _tabletWidth = 600;
-  final List<String> userFolders = ['쇼핑', '음식', '식당', '취미'];
+  final List<String> userFolders = [];
 
   bool _isTablet(BoxConstraints constraints) {
     return constraints.maxWidth >= _tabletWidth;
