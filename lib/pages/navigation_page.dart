@@ -128,15 +128,27 @@ class _NavigationPageState extends State<NavigationPage> {
                     },
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    // 설정 화면으로 이동하는 로직
-                  },
-                  icon: Icon(Icons.settings,
-                      color: Theme.of(context).iconTheme.color),
-                ),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _topBar() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(child: _searchField()),
+          IconButton(
+            icon: Icon(
+              Icons.settings,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            onPressed: () {},
           ),
         ],
       ),
@@ -148,7 +160,7 @@ class _NavigationPageState extends State<NavigationPage> {
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Column(
         children: [
-          _searchField(),
+          _topBar(),
           _menuList(),
           _bottomMenu(),
         ],
