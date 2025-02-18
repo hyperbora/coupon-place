@@ -26,7 +26,6 @@ class _NavigationPageState extends State<NavigationPage> {
           hintText: localizations.searchHint,
           hintStyle: TextStyle(color: Theme.of(context).hintColor),
           filled: true,
-          fillColor: Theme.of(context).colorScheme.surface,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide.none,
@@ -140,9 +139,15 @@ class _NavigationPageState extends State<NavigationPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Expanded(child: _searchField()),
+          IconButton(
+            icon: Icon(
+              Icons.edit,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            onPressed: () {},
+          ),
           IconButton(
             icon: Icon(
               Icons.settings,
@@ -161,6 +166,7 @@ class _NavigationPageState extends State<NavigationPage> {
       child: Column(
         children: [
           _topBar(),
+          _searchField(),
           _menuList(),
           _bottomMenu(),
         ],
