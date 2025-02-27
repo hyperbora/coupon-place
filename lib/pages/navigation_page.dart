@@ -1,3 +1,4 @@
+import 'package:coupon_place/constants.dart';
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../widgets/menu_item.dart';
@@ -10,11 +11,10 @@ class NavigationPage extends StatefulWidget {
 }
 
 class _NavigationPageState extends State<NavigationPage> {
-  final int _tabletWidth = 600;
   final List<String> userFolders = [];
 
   bool _isTablet(BoxConstraints constraints) {
-    return constraints.maxWidth >= _tabletWidth;
+    return constraints.maxWidth >= AppConstants.tabletWidthThreshold;
   }
 
   Widget _searchField() {

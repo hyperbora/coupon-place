@@ -1,3 +1,4 @@
+import 'package:coupon_place/constants.dart';
 import 'package:coupon_place/flavor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,8 +12,29 @@ Future<void> main() async {
   String? flavor =
       await const MethodChannel('flavor').invokeMethod<String>('getFlavor');
   FlavorConfig.setFlavor(flavor!);
-
+  setOrientation();
   runApp(const MyApp());
+}
+
+void setOrientation() {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    final width = WidgetsBinding
+            .instance.platformDispatcher.views.first.physicalSize.width /
+        WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
+
+    if (width < AppConstants.tabletWidthThreshold) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+      ]);
+    } else {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
+    }
+  });
 }
 
 class MyApp extends StatelessWidget {
