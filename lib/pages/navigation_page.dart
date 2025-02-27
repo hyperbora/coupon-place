@@ -88,43 +88,56 @@ class _NavigationPageState extends State<NavigationPage> {
               children: [
                 Expanded(
                   child: ListTile(
-                    leading: Icon(Icons.add,
-                        color: Theme.of(context).iconTheme.color),
-                    title: Text(localizations.addFolder,
+                    leading: TextButton.icon(
+                      icon: Icon(Icons.add_circle,
+                          color: Theme.of(context).iconTheme.color),
+                      label: Text(
+                        localizations.addFolder,
                         style: TextStyle(
                             color:
-                                Theme.of(context).textTheme.bodyMedium?.color)),
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text(localizations.addFolder,
-                                style: TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.color)),
-                            content: TextField(
-                              decoration: InputDecoration(
-                                  hintText: localizations.newFolderNameHint),
-                            ),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text(localizations.cancel),
+                                Theme.of(context).textTheme.bodyLarge?.color),
+                      ),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text(localizations.addFolder,
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.color)),
+                              content: TextField(
+                                decoration: InputDecoration(
+                                    hintText: localizations.newFolderNameHint),
                               ),
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text(localizations.confirm),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(localizations.cancel),
+                                ),
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text(localizations.confirm),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    trailing: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        '쿠폰 추가',
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
