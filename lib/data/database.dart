@@ -35,11 +35,15 @@ class Folders extends Table {
 @DriftDatabase(tables: [Coupons, Folders])
 class AppDatabase extends _$AppDatabase {
   static AppDatabase? _instance;
+  bool _isClosed = false;
 
   AppDatabase._internal(QueryExecutor e) : super(e);
 
   factory AppDatabase({DatabaseMode mode = DatabaseMode.persistent}) {
-    return _instance ??= AppDatabase._internal(_openConnection(mode));
+    if (_instance == null || _instance!._isClosed) {
+      _instance = AppDatabase._internal(_openConnection(mode));
+    }
+    return _instance!;
   }
 
   @override
@@ -56,6 +60,12 @@ class AppDatabase extends _$AppDatabase {
   Future<int> insertFolder(Folder folder) => into(folders).insert(folder);
   Future<bool> updateFolder(Folder folder) => update(folders).replace(folder);
   Future<int> deleteFolder(Folder folder) => delete(folders).delete(folder);
+
+  @override
+  Future<void> close() async {
+    _isClosed = true;
+    await super.close();
+  }
 }
 
 LazyDatabase _openConnection(DatabaseMode mode) {
