@@ -36,4 +36,27 @@ void main() {
     expect(folders[0].name, 'Test Folder 1');
     expect(folders[1].name, 'Test Folder 2');
   });
+
+  test('updateFolder should update a folder in the database', () async {
+    final folder = model.Folder.fromMap({"id": '1', "name": "Test Folder"});
+    await folderRepository.insertFolder(folder);
+
+    final updatedFolder =
+        model.Folder.fromMap({"id": '1', "name": "Updated Folder"});
+    await folderRepository.updateFolder(updatedFolder);
+
+    final folders = await folderRepository.getFolders();
+    expect(folders.length, 1);
+    expect(folders.first.name, 'Updated Folder');
+  });
+
+  test('deleteFolder should delete a folder from the database', () async {
+    final folder = model.Folder.fromMap({"id": '1', "name": "Test Folder"});
+    await folderRepository.insertFolder(folder);
+
+    await folderRepository.deleteFolder(folder);
+
+    final folders = await folderRepository.getFolders();
+    expect(folders.length, 0);
+  });
 }

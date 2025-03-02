@@ -16,4 +16,12 @@ class FolderRepository {
         .map((folder) => model.Folder.fromMap(folder.toJson()))
         .toList();
   }
+
+  Future<void> updateFolder(model.Folder folder) async {
+    await appDatabase.updateFolder(db.Folder.fromJson(folder.toMap()));
+  }
+
+  Future<void> deleteFolder(model.Folder folder) async {
+    await appDatabase.deleteFolder(db.Folder.fromJson(folder.toMap()));
+  }
 }
