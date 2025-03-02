@@ -25,7 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
 
   static Map<String, dynamic> _notInlinedMessages(_) => {
-      'addCoupon': MessageLookupByLibrary.simpleMessage('추가하기'),
+      'addCoupon': MessageLookupByLibrary.simpleMessage('쿠폰 추가'),
     'addFolder': MessageLookupByLibrary.simpleMessage('폴더 추가'),
     'cancel': MessageLookupByLibrary.simpleMessage('취소'),
     'confirm': MessageLookupByLibrary.simpleMessage('확인'),

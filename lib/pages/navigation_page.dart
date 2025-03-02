@@ -132,7 +132,7 @@ class _NavigationPageState extends State<NavigationPage> {
                     trailing: TextButton(
                       onPressed: () {},
                       child: Text(
-                        '쿠폰 추가',
+                        localizations.addCoupon,
                         style: TextStyle(
                           color: Theme.of(context).textTheme.bodyLarge?.color,
                         ),

@@ -6,7 +6,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "addCoupon": "추가하기",
+  "addCoupon": "쿠폰 추가",
   "@addCoupon": {
     "type": "text",
     "placeholders": {}
