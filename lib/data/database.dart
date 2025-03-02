@@ -7,6 +7,8 @@ import 'package:uuid/uuid.dart';
 
 part 'database.g.dart';
 
+enum DatabaseMode { memory, persistent }
+
 @DataClassName('Coupon')
 class Coupons extends Table {
   TextColumn get id => text().clientDefault(() => const Uuid().v4())();
@@ -34,10 +36,10 @@ class Folders extends Table {
 class AppDatabase extends _$AppDatabase {
   static AppDatabase? _instance;
 
-  AppDatabase._internal() : super(_openConnection());
+  AppDatabase._internal(QueryExecutor e) : super(e);
 
-  factory AppDatabase() {
-    return _instance ??= AppDatabase._internal();
+  factory AppDatabase({DatabaseMode mode = DatabaseMode.persistent}) {
+    return _instance ??= AppDatabase._internal(_openConnection(mode));
   }
 
   @override
@@ -56,10 +58,16 @@ class AppDatabase extends _$AppDatabase {
   Future<int> deleteFolder(Folder folder) => delete(folders).delete(folder);
 }
 
-LazyDatabase _openConnection() {
-  return LazyDatabase(() async {
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'db.sqlite'));
-    return NativeDatabase(file);
-  });
+LazyDatabase _openConnection(DatabaseMode mode) {
+  final connectionMap = {
+    DatabaseMode.memory: LazyDatabase(() async {
+      return NativeDatabase.memory();
+    }),
+    DatabaseMode.persistent: LazyDatabase(() async {
+      final dbFolder = await getApplicationDocumentsDirectory();
+      final file = File(p.join(dbFolder.path, 'db.sqlite'));
+      return NativeDatabase(file);
+    }),
+  };
+  return connectionMap[mode]!;
 }
