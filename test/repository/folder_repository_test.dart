@@ -59,4 +59,30 @@ void main() {
     final folders = await folderRepository.getFolders();
     expect(folders.length, 0);
   });
+
+  test('updateFolderOrder should update folder sorting order', () async {
+    final folder1 = model.Folder.fromMap({"id": '1', "name": "Folder 1"});
+    final folder2 = model.Folder.fromMap({"id": '2', "name": "Folder 2"});
+    final folder3 = model.Folder.fromMap({"id": '3', "name": "Folder 3"});
+
+    await folderRepository.insertFolder(folder1);
+    await folderRepository.insertFolder(folder2);
+    await folderRepository.insertFolder(folder3);
+
+    final updatedFolders = [
+      model.Folder.fromMap({"id": '3', "name": "Folder 3", "sortIndex": 0}),
+      model.Folder.fromMap({"id": '1', "name": "Folder 1", "sortIndex": 1}),
+      model.Folder.fromMap({"id": '2', "name": "Folder 2", "sortIndex": 2}),
+    ];
+
+    await folderRepository.updateFolderOrder(updatedFolders);
+
+    final folders = await folderRepository.getFolders();
+    folders.sort((a, b) => a.sortIndex.compareTo(b.sortIndex));
+
+    expect(folders.length, 3);
+    expect(folders[0].id, '3');
+    expect(folders[1].id, '1');
+    expect(folders[2].id, '2');
+  });
 }

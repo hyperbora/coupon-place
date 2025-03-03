@@ -20,8 +20,16 @@ class $FoldersTable extends Folders with TableInfo<$FoldersTable, Folder> {
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _sortIndexMeta =
+      const VerificationMeta('sortIndex');
   @override
-  List<GeneratedColumn> get $columns => [id, name];
+  late final GeneratedColumn<int> sortIndex = GeneratedColumn<int>(
+      'sort_index', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: Constant(0));
+  @override
+  List<GeneratedColumn> get $columns => [id, name, sortIndex];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -41,6 +49,10 @@ class $FoldersTable extends Folders with TableInfo<$FoldersTable, Folder> {
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
+    if (data.containsKey('sort_index')) {
+      context.handle(_sortIndexMeta,
+          sortIndex.isAcceptableOrUnknown(data['sort_index']!, _sortIndexMeta));
+    }
     return context;
   }
 
@@ -54,6 +66,8 @@ class $FoldersTable extends Folders with TableInfo<$FoldersTable, Folder> {
           .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
       name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      sortIndex: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}sort_index'])!,
     );
   }
 
@@ -66,12 +80,14 @@ class $FoldersTable extends Folders with TableInfo<$FoldersTable, Folder> {
 class Folder extends DataClass implements Insertable<Folder> {
   final String id;
   final String name;
-  const Folder({required this.id, required this.name});
+  final int sortIndex;
+  const Folder({required this.id, required this.name, required this.sortIndex});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
     map['name'] = Variable<String>(name);
+    map['sort_index'] = Variable<int>(sortIndex);
     return map;
   }
 
@@ -79,6 +95,7 @@ class Folder extends DataClass implements Insertable<Folder> {
     return FoldersCompanion(
       id: Value(id),
       name: Value(name),
+      sortIndex: Value(sortIndex),
     );
   }
 
@@ -88,6 +105,7 @@ class Folder extends DataClass implements Insertable<Folder> {
     return Folder(
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
+      sortIndex: serializer.fromJson<int>(json['sortIndex']),
     );
   }
   @override
@@ -96,61 +114,76 @@ class Folder extends DataClass implements Insertable<Folder> {
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
+      'sortIndex': serializer.toJson<int>(sortIndex),
     };
   }
 
-  Folder copyWith({String? id, String? name}) => Folder(
+  Folder copyWith({String? id, String? name, int? sortIndex}) => Folder(
         id: id ?? this.id,
         name: name ?? this.name,
+        sortIndex: sortIndex ?? this.sortIndex,
       );
   @override
   String toString() {
     return (StringBuffer('Folder(')
           ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('name: $name, ')
+          ..write('sortIndex: $sortIndex')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name);
+  int get hashCode => Object.hash(id, name, sortIndex);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Folder && other.id == this.id && other.name == this.name);
+      (other is Folder &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.sortIndex == this.sortIndex);
 }
 
 class FoldersCompanion extends UpdateCompanion<Folder> {
   final Value<String> id;
   final Value<String> name;
+  final Value<int> sortIndex;
   final Value<int> rowid;
   const FoldersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
+    this.sortIndex = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   FoldersCompanion.insert({
     this.id = const Value.absent(),
     required String name,
+    this.sortIndex = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : name = Value(name);
   static Insertable<Folder> custom({
     Expression<String>? id,
     Expression<String>? name,
+    Expression<int>? sortIndex,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
+      if (sortIndex != null) 'sort_index': sortIndex,
       if (rowid != null) 'rowid': rowid,
     });
   }
 
   FoldersCompanion copyWith(
-      {Value<String>? id, Value<String>? name, Value<int>? rowid}) {
+      {Value<String>? id,
+      Value<String>? name,
+      Value<int>? sortIndex,
+      Value<int>? rowid}) {
     return FoldersCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
+      sortIndex: sortIndex ?? this.sortIndex,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -164,6 +197,9 @@ class FoldersCompanion extends UpdateCompanion<Folder> {
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
+    if (sortIndex.present) {
+      map['sort_index'] = Variable<int>(sortIndex.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -175,6 +211,7 @@ class FoldersCompanion extends UpdateCompanion<Folder> {
     return (StringBuffer('FoldersCompanion(')
           ..write('id: $id, ')
           ..write('name: $name, ')
+          ..write('sortIndex: $sortIndex, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -529,21 +566,26 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabaseManager get managers => _$AppDatabaseManager(this);
   late final $FoldersTable folders = $FoldersTable(this);
   late final $CouponsTable coupons = $CouponsTable(this);
+  late final Index idxFoldersSortIndex = Index('idx_folders_sortIndex',
+      'CREATE INDEX idx_folders_sortIndex ON folders (sort_index)');
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [folders, coupons];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [folders, coupons, idxFoldersSortIndex];
 }
 
 typedef $$FoldersTableInsertCompanionBuilder = FoldersCompanion Function({
   Value<String> id,
   required String name,
+  Value<int> sortIndex,
   Value<int> rowid,
 });
 typedef $$FoldersTableUpdateCompanionBuilder = FoldersCompanion Function({
   Value<String> id,
   Value<String> name,
+  Value<int> sortIndex,
   Value<int> rowid,
 });
 
@@ -568,21 +610,25 @@ class $$FoldersTableTableManager extends RootTableManager<
           getUpdateCompanionBuilder: ({
             Value<String> id = const Value.absent(),
             Value<String> name = const Value.absent(),
+            Value<int> sortIndex = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               FoldersCompanion(
             id: id,
             name: name,
+            sortIndex: sortIndex,
             rowid: rowid,
           ),
           getInsertCompanionBuilder: ({
             Value<String> id = const Value.absent(),
             required String name,
+            Value<int> sortIndex = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               FoldersCompanion.insert(
             id: id,
             name: name,
+            sortIndex: sortIndex,
             rowid: rowid,
           ),
         ));
@@ -613,6 +659,11 @@ class $$FoldersTableFilterComposer
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
+  ColumnFilters<int> get sortIndex => $state.composableBuilder(
+      column: $state.table.sortIndex,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
   ComposableFilter couponsRefs(
       ComposableFilter Function($$CouponsTableFilterComposer f) f) {
     final $$CouponsTableFilterComposer composer = $state.composerBuilder(
@@ -637,6 +688,11 @@ class $$FoldersTableOrderingComposer
 
   ColumnOrderings<String> get name => $state.composableBuilder(
       column: $state.table.name,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get sortIndex => $state.composableBuilder(
+      column: $state.table.sortIndex,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }

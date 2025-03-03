@@ -24,9 +24,11 @@ class Coupons extends Table {
 }
 
 @DataClassName('Folder')
+@TableIndex(name: 'idx_folders_sortIndex', columns: {#sortIndex})
 class Folders extends Table {
   TextColumn get id => text().clientDefault(() => const Uuid().v4())();
   TextColumn get name => text()();
+  IntColumn get sortIndex => integer().withDefault(Constant(0))();
 
   @override
   Set<Column> get primaryKey => {id};
