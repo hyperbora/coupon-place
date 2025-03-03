@@ -1,12 +1,13 @@
 import 'package:coupon_place/data/database.dart' as db;
 import 'package:coupon_place/models/folder.dart' as model;
+import 'package:drift/drift.dart';
 
 class FolderRepository {
   db.AppDatabase appDatabase;
 
   FolderRepository({required this.appDatabase});
 
-  Future<void> insertFolder(model.Folder folder) async {
+  Future<db.Folder> insertFolder(model.Folder folder) async {
     final maxIndex = await appDatabase.getAllFolders().then((folders) {
       return folders.isNotEmpty
           ? folders.map((f) => f.sortIndex).reduce((a, b) => a > b ? a : b)
@@ -14,7 +15,13 @@ class FolderRepository {
     });
 
     final newFolder = folder.copyWith(sortIndex: maxIndex + 1);
-    await appDatabase.insertFolder(db.Folder.fromJson(newFolder.toMap()));
+
+    return await appDatabase.into(appDatabase.folders).insertReturning(
+          db.FoldersCompanion.insert(
+            name: newFolder.name,
+            sortIndex: Value(newFolder.sortIndex),
+          ),
+        );
   }
 
   Future<List<model.Folder>> getFolders() async {

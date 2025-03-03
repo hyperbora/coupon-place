@@ -15,7 +15,7 @@ class Folder {
 
   static Folder fromMap(Map<String, dynamic> map) {
     return Folder(
-      id: map['id'],
+      id: map['id'] ?? '',
       name: map['name'],
       sortIndex: map['sortIndex'] ?? 0,
     );

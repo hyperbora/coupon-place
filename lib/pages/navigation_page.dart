@@ -1,4 +1,7 @@
 import 'package:coupon_place/constants.dart';
+import 'package:coupon_place/data/database.dart';
+import 'package:coupon_place/repository/folder_repository.dart';
+import 'package:coupon_place/models/folder.dart' as model;
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../widgets/menu_item.dart';
@@ -12,6 +15,10 @@ class NavigationPage extends StatefulWidget {
 
 class _NavigationPageState extends State<NavigationPage> {
   final List<String> userFolders = [];
+  late final AppDatabase appDatabase = AppDatabase();
+  late final FolderRepository folderRepository =
+      FolderRepository(appDatabase: appDatabase);
+  final TextEditingController _folderNameController = TextEditingController();
 
   bool _isTablet(BoxConstraints constraints) {
     return constraints.maxWidth >= AppConstants.tabletWidthThreshold;
@@ -109,6 +116,7 @@ class _NavigationPageState extends State<NavigationPage> {
                                           .bodyMedium
                                           ?.color)),
                               content: TextField(
+                                controller: _folderNameController,
                                 decoration: InputDecoration(
                                     hintText: localizations.newFolderNameHint),
                               ),
@@ -120,7 +128,21 @@ class _NavigationPageState extends State<NavigationPage> {
                                   child: Text(localizations.cancel),
                                 ),
                                 TextButton(
-                                  onPressed: () => Navigator.pop(context),
+                                  onPressed: () {
+                                    final folderName =
+                                        _folderNameController.text;
+                                    if (folderName.isEmpty) {
+                                      return;
+                                    }
+                                    folderRepository.insertFolder(
+                                        model.Folder.fromMap(
+                                            {'name': folderName}));
+                                    setState(() {
+                                      userFolders.add(folderName);
+                                      _folderNameController.clear();
+                                    });
+                                    Navigator.pop(context);
+                                  },
                                   child: Text(localizations.confirm),
                                 ),
                               ],
