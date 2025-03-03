@@ -20,8 +20,105 @@ class _NavigationPageState extends State<NavigationPage> {
       FolderRepository(appDatabase: appDatabase);
   final TextEditingController _folderNameController = TextEditingController();
 
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (context, constraints) {
+      if (_isTablet(constraints)) {
+        return tabletLayout();
+      } else {
+        return smartPhoneLayout();
+      }
+    });
+  }
+
   bool _isTablet(BoxConstraints constraints) {
     return constraints.maxWidth >= AppConstants.tabletWidthThreshold;
+  }
+
+  Widget tabletLayout() {
+    final localizations = AppLocalizations.of(context)!;
+
+    return SafeArea(
+      child: Scaffold(
+        body: Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: _sidePanel(),
+            ),
+            VerticalDivider(
+              color: Theme.of(context).dividerColor,
+              width: 1,
+              thickness: 1,
+            ),
+            Expanded(
+              flex: 5,
+              child: Container(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                child: Center(
+                  child: Text(
+                    localizations.list,
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                        fontSize: 18),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget smartPhoneLayout() {
+    return SafeArea(
+      child: Scaffold(
+        body: _sidePanel(),
+      ),
+    );
+  }
+
+  Widget _sidePanel() {
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _topBar(),
+          _searchField(),
+          Flexible(child: _menuList()),
+          Expanded(child: _folderList()),
+          _bottomMenu(),
+        ],
+      ),
+    );
+  }
+
+  Widget _topBar() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          IconButton(
+            icon: Icon(
+              Icons.edit,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.settings,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            onPressed: () {},
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _searchField() {
@@ -48,35 +145,89 @@ class _NavigationPageState extends State<NavigationPage> {
 
   Widget _menuList() {
     final localizations = AppLocalizations.of(context)!;
-    return Expanded(
-      child: ListView(
-        children: [
-          MenuItem(
-              icon: Icons.list, title: localizations.menuAllCoupons, count: 0),
-          MenuItem(
-              icon: Icons.access_time,
-              title: localizations.menuExpiringSoon,
-              count: 0),
-          MenuItem(
-              icon: Icons.check_circle_outline,
-              title: localizations.menuUsedCoupons,
-              count: 0),
-          MenuItem(
-              icon: Icons.favorite,
-              title: localizations.menuFavorites,
-              count: 0),
-          Divider(color: Theme.of(context).dividerColor),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(localizations.myFolder,
-                style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyMedium?.color,
-                    fontSize: 14)),
+    return ListView(
+      shrinkWrap: true,
+      padding: EdgeInsets.zero,
+      children: [
+        MenuItem(
+            icon: Icons.list, title: localizations.menuAllCoupons, count: 0),
+        MenuItem(
+            icon: Icons.access_time,
+            title: localizations.menuExpiringSoon,
+            count: 0),
+        MenuItem(
+            icon: Icons.check_circle_outline,
+            title: localizations.menuUsedCoupons,
+            count: 0),
+        MenuItem(
+            icon: Icons.favorite, title: localizations.menuFavorites, count: 0),
+      ],
+    );
+  }
+
+  Widget _folderList() {
+    final localizations = AppLocalizations.of(context)!;
+
+    return Column(
+      children: [
+        Divider(color: Theme.of(context).dividerColor),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text(
+            localizations.myFolder,
+            style: TextStyle(
+              color: Theme.of(context).textTheme.bodyMedium?.color,
+              fontSize: 14,
+            ),
           ),
-          ...userFolders
-              .map((folder) => MenuItem(icon: Icons.folder, title: folder)),
-        ],
-      ),
+        ),
+        Expanded(
+          child: StreamBuilder<List<model.Folder>>(
+            stream: folderRepository.watchFolders(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+
+              if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              }
+
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Center(child: Text(''));
+              }
+
+              List<model.Folder> folders = snapshot.data!;
+
+              return ReorderableListView(
+                onReorder: (oldIndex, newIndex) {
+                  if (oldIndex < newIndex) {
+                    newIndex -= 1;
+                  }
+
+                  final List<model.Folder> reorderedFolders =
+                      List.from(folders);
+                  final movedFolder = reorderedFolders.removeAt(oldIndex);
+                  reorderedFolders.insert(newIndex, movedFolder);
+
+                  folderRepository.updateFolderOrder(reorderedFolders);
+                },
+                children: List.generate(
+                  folders.length,
+                  (index) {
+                    final folder = folders[index];
+                    return MenuItem(
+                      key: ValueKey(folder.id),
+                      icon: Icons.folder,
+                      title: folder.name,
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -84,14 +235,16 @@ class _NavigationPageState extends State<NavigationPage> {
     final localizations = AppLocalizations.of(context)!;
 
     return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.red),
+      ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Divider(color: Theme.of(context).dividerColor),
           Padding(
             padding: const EdgeInsets.all(1.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: ListTile(
@@ -168,99 +321,5 @@ class _NavigationPageState extends State<NavigationPage> {
         ],
       ),
     );
-  }
-
-  Widget _topBar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          IconButton(
-            icon: Icon(
-              Icons.edit,
-              color: Theme.of(context).iconTheme.color,
-            ),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.settings,
-              color: Theme.of(context).iconTheme.color,
-            ),
-            onPressed: () {},
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _sidePanel() {
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: Column(
-        children: [
-          _topBar(),
-          _searchField(),
-          _menuList(),
-          _bottomMenu(),
-        ],
-      ),
-    );
-  }
-
-  Widget tabletLayout() {
-    final localizations = AppLocalizations.of(context)!;
-
-    return SafeArea(
-      child: Scaffold(
-        body: Row(
-          children: [
-            Expanded(
-              flex: 2,
-              child: _sidePanel(),
-            ),
-            VerticalDivider(
-              color: Theme.of(context).dividerColor,
-              width: 1,
-              thickness: 1,
-            ),
-            Expanded(
-              flex: 5,
-              child: Container(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                child: Center(
-                  child: Text(
-                    localizations.list,
-                    style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyMedium?.color,
-                        fontSize: 18),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget smartPhoneLayout() {
-    return SafeArea(
-      child: Scaffold(
-        body: _sidePanel(),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      if (_isTablet(constraints)) {
-        return tabletLayout();
-      } else {
-        return smartPhoneLayout();
-      }
-    });
   }
 }
