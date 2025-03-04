@@ -83,13 +83,13 @@ class _NavigationPageState extends State<NavigationPage> {
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
         children: [
           _topBar(),
           _searchField(),
-          Flexible(child: _menuList()),
-          Expanded(child: _folderList()),
+          _menuList(),
+          Flexible(child: _folderList()),
           _bottomMenu(),
         ],
       ),
@@ -234,92 +234,85 @@ class _NavigationPageState extends State<NavigationPage> {
   Widget _bottomMenu() {
     final localizations = AppLocalizations.of(context)!;
 
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.red),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Divider(color: Theme.of(context).dividerColor),
-          Padding(
-            padding: const EdgeInsets.all(1.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    leading: TextButton.icon(
-                      icon: Icon(Icons.add_circle,
-                          color: Theme.of(context).iconTheme.color),
-                      label: Text(
-                        localizations.addFolder,
-                        style: TextStyle(
-                            color:
-                                Theme.of(context).textTheme.bodyLarge?.color),
-                      ),
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text(localizations.addFolder,
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.color)),
-                              content: TextField(
-                                controller: _folderNameController,
-                                decoration: InputDecoration(
-                                    hintText: localizations.newFolderNameHint),
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(localizations.cancel),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    final folderName =
-                                        _folderNameController.text;
-                                    if (folderName.isEmpty) {
-                                      return;
-                                    }
-                                    folderRepository.insertFolder(
-                                        model.Folder.fromMap(
-                                            {'name': folderName}));
-                                    setState(() {
-                                      userFolders.add(folderName);
-                                      _folderNameController.clear();
-                                    });
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(localizations.confirm),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Divider(color: Theme.of(context).dividerColor),
+        Padding(
+          padding: const EdgeInsets.all(1.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: ListTile(
+                  leading: TextButton.icon(
+                    icon: Icon(Icons.add_circle,
+                        color: Theme.of(context).iconTheme.color),
+                    label: Text(
+                      localizations.addFolder,
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyLarge?.color),
                     ),
-                    trailing: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        localizations.addCoupon,
-                        style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyLarge?.color,
-                        ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text(localizations.addFolder,
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.color)),
+                            content: TextField(
+                              controller: _folderNameController,
+                              decoration: InputDecoration(
+                                  hintText: localizations.newFolderNameHint),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(localizations.cancel),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  final folderName = _folderNameController.text;
+                                  if (folderName.isEmpty) {
+                                    return;
+                                  }
+                                  folderRepository.insertFolder(
+                                      model.Folder.fromMap(
+                                          {'name': folderName}));
+                                  setState(() {
+                                    userFolders.add(folderName);
+                                    _folderNameController.clear();
+                                  });
+                                  Navigator.pop(context);
+                                },
+                                child: Text(localizations.confirm),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  trailing: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      localizations.addCoupon,
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
