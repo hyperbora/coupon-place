@@ -24,9 +24,9 @@ class _NavigationPageState extends State<NavigationPage> {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       if (_isTablet(constraints)) {
-        return tabletLayout();
+        return _tabletLayout();
       } else {
-        return smartPhoneLayout();
+        return _smartPhoneLayout();
       }
     });
   }
@@ -35,7 +35,7 @@ class _NavigationPageState extends State<NavigationPage> {
     return constraints.maxWidth >= AppConstants.tabletWidthThreshold;
   }
 
-  Widget tabletLayout() {
+  Widget _tabletLayout() {
     final localizations = AppLocalizations.of(context)!;
 
     return SafeArea(
@@ -71,7 +71,7 @@ class _NavigationPageState extends State<NavigationPage> {
     );
   }
 
-  Widget smartPhoneLayout() {
+  Widget _smartPhoneLayout() {
     return SafeArea(
       child: Scaffold(
         body: _sidePanel(),
@@ -148,6 +148,7 @@ class _NavigationPageState extends State<NavigationPage> {
     return ListView(
       shrinkWrap: true,
       padding: EdgeInsets.zero,
+      physics: NeverScrollableScrollPhysics(),
       children: [
         MenuItem(
             icon: Icons.list, title: localizations.menuAllCoupons, count: 0),
@@ -169,6 +170,7 @@ class _NavigationPageState extends State<NavigationPage> {
     final localizations = AppLocalizations.of(context)!;
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Divider(color: Theme.of(context).dividerColor),
         Padding(
@@ -177,7 +179,6 @@ class _NavigationPageState extends State<NavigationPage> {
             localizations.myFolder,
             style: TextStyle(
               color: Theme.of(context).textTheme.bodyMedium?.color,
-              fontSize: 14,
             ),
           ),
         ),
