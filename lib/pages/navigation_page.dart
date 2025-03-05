@@ -195,7 +195,7 @@ class _NavigationPageState extends State<NavigationPage> {
               }
 
               if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(child: Text(''));
+                return SizedBox.shrink();
               }
 
               List<model.Folder> folders = snapshot.data!;
