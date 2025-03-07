@@ -34,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'menuAllCoupons': MessageLookupByLibrary.simpleMessage('All Coupons'),
     'menuExpiringSoon': MessageLookupByLibrary.simpleMessage('Expiring Soon'),
     'menuFavorites': MessageLookupByLibrary.simpleMessage('Favorites'),
+    'menuRecentlyDeleted': MessageLookupByLibrary.simpleMessage('Recently Deleted'),
     'menuUsedCoupons': MessageLookupByLibrary.simpleMessage('Used Coupons'),
     'myCoupons': MessageLookupByLibrary.simpleMessage('My Coupons'),
     'myFolder': MessageLookupByLibrary.simpleMessage('My Folder'),

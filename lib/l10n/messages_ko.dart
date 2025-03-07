@@ -34,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'menuAllCoupons': MessageLookupByLibrary.simpleMessage('전체'),
     'menuExpiringSoon': MessageLookupByLibrary.simpleMessage('만료 임박'),
     'menuFavorites': MessageLookupByLibrary.simpleMessage('즐겨찾기'),
+    'menuRecentlyDeleted': MessageLookupByLibrary.simpleMessage('최근 삭제된 항목'),
     'menuUsedCoupons': MessageLookupByLibrary.simpleMessage('사용한 쿠폰'),
     'myCoupons': MessageLookupByLibrary.simpleMessage('내 쿠폰'),
     'myFolder': MessageLookupByLibrary.simpleMessage('내 폴더'),

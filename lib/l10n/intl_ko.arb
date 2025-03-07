@@ -46,6 +46,11 @@
     "type": "text",
     "placeholders": {}
   },
+  "menuRecentlyDeleted": "최근 삭제된 항목",
+  "@menuRecentlyDeleted": {
+    "type": "text",
+    "placeholders": {}
+  },
   "myFolder": "내 폴더",
   "@myFolder": {
     "type": "text",

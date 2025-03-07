@@ -36,6 +36,11 @@ class AppLocalizations {
         name: 'menuFavorites',
       );
 
+  String get menuRecentlyDeleted => Intl.message(
+        'Recently Deleted',
+        name: 'menuRecentlyDeleted',
+      );
+
   String get myFolder => Intl.message('My Folder', name: 'myFolder');
 
   String get addFolder => Intl.message('Add Folder', name: 'addFolder');

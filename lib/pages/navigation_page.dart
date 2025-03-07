@@ -162,6 +162,10 @@ class _NavigationPageState extends State<NavigationPage> {
             count: 0),
         MenuItem(
             icon: Icons.favorite, title: localizations.menuFavorites, count: 0),
+        MenuItem(
+            icon: Icons.delete_outline,
+            title: localizations.menuRecentlyDeleted,
+            count: 0),
       ],
     );
   }
