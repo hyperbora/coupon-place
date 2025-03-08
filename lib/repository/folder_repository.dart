@@ -51,14 +51,13 @@ class FolderRepository {
 
   Future<void> updateFolderOrder(List<model.Folder> folders) async {
     await appDatabase.batch((batch) {
-      for (var folder in folders) {
+      folders.asMap().forEach((index, folder) {
         batch.update(
           appDatabase.folders,
-          db.Folder.fromJson(
-              folder.copyWith(sortIndex: folder.sortIndex).toMap()),
+          db.Folder.fromJson(folder.copyWith(sortIndex: index).toMap()),
           where: (tbl) => tbl.id.equals(folder.id),
         );
-      }
+      });
     });
   }
 }

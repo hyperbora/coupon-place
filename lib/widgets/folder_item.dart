@@ -47,7 +47,18 @@ class FolderItem extends StatelessWidget {
       title: Text(title,
           style:
               TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color)),
-      trailing: Text('$count', style: trailingStyle),
+      trailing: editMode == EditMode.edit
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('$count', style: trailingStyle),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: onDragStart,
+                )
+              ],
+            )
+          : Text('$count', style: trailingStyle),
     );
   }
 }

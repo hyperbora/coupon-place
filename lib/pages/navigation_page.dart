@@ -225,6 +225,7 @@ class _NavigationPageState extends State<NavigationPage> {
               return ReorderableListView(
                 buildDefaultDragHandles: false,
                 onReorder: (oldIndex, newIndex) {
+                  print('Old Index: $oldIndex, New Index: $newIndex');
                   if (oldIndex < newIndex) {
                     newIndex -= 1;
                   }
