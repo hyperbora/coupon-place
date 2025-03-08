@@ -2,6 +2,7 @@ import 'package:coupon_place/constants.dart';
 import 'package:coupon_place/data/database.dart';
 import 'package:coupon_place/repository/folder_repository.dart';
 import 'package:coupon_place/models/folder.dart' as model;
+import 'package:coupon_place/widgets/folder_item.dart';
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../widgets/menu_item.dart';
@@ -222,6 +223,7 @@ class _NavigationPageState extends State<NavigationPage> {
               List<model.Folder> folders = snapshot.data!;
 
               return ReorderableListView(
+                buildDefaultDragHandles: false,
                 onReorder: (oldIndex, newIndex) {
                   if (oldIndex < newIndex) {
                     newIndex -= 1;
@@ -238,10 +240,18 @@ class _NavigationPageState extends State<NavigationPage> {
                   folders.length,
                   (index) {
                     final folder = folders[index];
-                    return MenuItem(
+                    return FolderItem(
                       key: ValueKey(folder.id),
                       icon: Icons.folder,
                       title: folder.name,
+                      count: 0,
+                      editMode: editMode,
+                      onEdit: () => (),
+                      onDelete: () => (),
+                      onDragStart: ReorderableDragStartListener(
+                        index: index,
+                        child: Icon(Icons.drag_handle),
+                      ),
                     );
                   },
                 ),
