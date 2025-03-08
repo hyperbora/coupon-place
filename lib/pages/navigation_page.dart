@@ -6,6 +6,14 @@ import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../widgets/menu_item.dart';
 
+enum EditMode { view, edit }
+
+extension EditModeExtension on EditMode {
+  EditMode toggle() {
+    return this == EditMode.view ? EditMode.edit : EditMode.view;
+  }
+}
+
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
 
@@ -19,6 +27,7 @@ class _NavigationPageState extends State<NavigationPage> {
   late final FolderRepository folderRepository =
       FolderRepository(appDatabase: appDatabase);
   final TextEditingController _folderNameController = TextEditingController();
+  EditMode editMode = EditMode.view;
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +105,10 @@ class _NavigationPageState extends State<NavigationPage> {
     );
   }
 
+  IconData _getEditIcon() {
+    return editMode == EditMode.edit ? Icons.check : Icons.edit;
+  }
+
   Widget _topBar() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
@@ -104,10 +117,14 @@ class _NavigationPageState extends State<NavigationPage> {
         children: [
           IconButton(
             icon: Icon(
-              Icons.edit,
+              _getEditIcon(),
               color: Theme.of(context).iconTheme.color,
             ),
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                editMode = editMode.toggle();
+              });
+            },
           ),
           IconButton(
             icon: Icon(
