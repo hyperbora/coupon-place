@@ -23,22 +23,32 @@ class NavigationPage extends StatefulWidget {
 }
 
 class _NavigationPageState extends State<NavigationPage> {
-  final List<String> userFolders = [];
   late final AppDatabase appDatabase = AppDatabase();
   late final FolderRepository folderRepository =
       FolderRepository(appDatabase: appDatabase);
   final TextEditingController _folderNameController = TextEditingController();
   EditMode editMode = EditMode.view;
+  model.Folder? selectedFolder;
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      if (_isTablet(constraints)) {
-        return _tabletLayout();
-      } else {
-        return _smartPhoneLayout();
-      }
-    });
+    return GestureDetector(
+      onTap: () {
+        if (selectedFolder == null) {
+          return;
+        }
+        setState(
+          () {
+            selectedFolder = null;
+          },
+        );
+      },
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return _isTablet(constraints) ? _tabletLayout() : _smartPhoneLayout();
+        },
+      ),
+    );
   }
 
   bool _isTablet(BoxConstraints constraints) {
@@ -209,7 +219,7 @@ class _NavigationPageState extends State<NavigationPage> {
             stream: folderRepository.watchFolders(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return SizedBox.shrink();
               }
 
               if (snapshot.hasError) {
@@ -240,17 +250,53 @@ class _NavigationPageState extends State<NavigationPage> {
                   folders.length,
                   (index) {
                     final folder = folders[index];
-                    return FolderItem(
-                      key: ValueKey(folder.id),
-                      icon: Icons.folder,
-                      title: folder.name,
-                      count: 0,
-                      editMode: editMode,
-                      onEdit: () => (),
-                      onDelete: () => (),
-                      onDragStart: ReorderableDragStartListener(
-                        index: index,
-                        child: Icon(Icons.drag_handle),
+                    return Dismissible(
+                      key: Key(folder.id),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        color: Colors.red,
+                      ),
+                      confirmDismiss: (direction) async {
+                        return await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text("Confirm"),
+                              content: const Text(
+                                  "Are you sure you wish to delete this item?"),
+                              actions: <Widget>[
+                                TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(true),
+                                    child: const Text("DELETE")),
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(false),
+                                  child: const Text("CANCEL"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      onDismissed: (direction) {
+                        folderRepository.deleteFolder(folder);
+                        setState(() {
+                          selectedFolder = null;
+                        });
+                      },
+                      child: FolderItem(
+                        key: ValueKey(folder.id),
+                        icon: Icons.folder,
+                        title: folder.name,
+                        count: 0,
+                        editMode: editMode,
+                        onEdit: () => (),
+                        onDelete: () => (),
+                        onDragStart: ReorderableDragStartListener(
+                          index: index,
+                          child: Icon(Icons.drag_handle),
+                        ),
                       ),
                     );
                   },
@@ -317,7 +363,6 @@ class _NavigationPageState extends State<NavigationPage> {
                                       model.Folder.fromMap(
                                           {'name': folderName}));
                                   setState(() {
-                                    userFolders.add(folderName);
                                     _folderNameController.clear();
                                   });
                                   Navigator.pop(context);
