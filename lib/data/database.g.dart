@@ -123,6 +123,14 @@ class Folder extends DataClass implements Insertable<Folder> {
         name: name ?? this.name,
         sortIndex: sortIndex ?? this.sortIndex,
       );
+  Folder copyWithCompanion(FoldersCompanion data) {
+    return Folder(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      sortIndex: data.sortIndex.present ? data.sortIndex.value : this.sortIndex,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Folder(')
@@ -426,6 +434,19 @@ class Coupon extends DataClass implements Insertable<Coupon> {
         folderId: folderId.present ? folderId.value : this.folderId,
         imagePath: imagePath.present ? imagePath.value : this.imagePath,
       );
+  Coupon copyWithCompanion(CouponsCompanion data) {
+    return Coupon(
+      id: data.id.present ? data.id.value : this.id,
+      title: data.title.present ? data.title.value : this.title,
+      description:
+          data.description.present ? data.description.value : this.description,
+      expiryDate:
+          data.expiryDate.present ? data.expiryDate.value : this.expiryDate,
+      folderId: data.folderId.present ? data.folderId.value : this.folderId,
+      imagePath: data.imagePath.present ? data.imagePath.value : this.imagePath,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Coupon(')
@@ -563,7 +584,7 @@ class CouponsCompanion extends UpdateCompanion<Coupon> {
 
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
-  _$AppDatabaseManager get managers => _$AppDatabaseManager(this);
+  $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $FoldersTable folders = $FoldersTable(this);
   late final $CouponsTable coupons = $CouponsTable(this);
   late final Index idxFoldersSortIndex = Index('idx_folders_sortIndex',
@@ -576,7 +597,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       [folders, coupons, idxFoldersSortIndex];
 }
 
-typedef $$FoldersTableInsertCompanionBuilder = FoldersCompanion Function({
+typedef $$FoldersTableCreateCompanionBuilder = FoldersCompanion Function({
   Value<String> id,
   required String name,
   Value<int> sortIndex,
@@ -589,25 +610,147 @@ typedef $$FoldersTableUpdateCompanionBuilder = FoldersCompanion Function({
   Value<int> rowid,
 });
 
+final class $$FoldersTableReferences
+    extends BaseReferences<_$AppDatabase, $FoldersTable, Folder> {
+  $$FoldersTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$CouponsTable, List<Coupon>> _couponsRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.coupons,
+          aliasName: $_aliasNameGenerator(db.folders.id, db.coupons.folderId));
+
+  $$CouponsTableProcessedTableManager get couponsRefs {
+    final manager = $$CouponsTableTableManager($_db, $_db.coupons)
+        .filter((f) => f.folderId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_couponsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$FoldersTableFilterComposer
+    extends Composer<_$AppDatabase, $FoldersTable> {
+  $$FoldersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get sortIndex => $composableBuilder(
+      column: $table.sortIndex, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> couponsRefs(
+      Expression<bool> Function($$CouponsTableFilterComposer f) f) {
+    final $$CouponsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.coupons,
+        getReferencedColumn: (t) => t.folderId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$CouponsTableFilterComposer(
+              $db: $db,
+              $table: $db.coupons,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
+class $$FoldersTableOrderingComposer
+    extends Composer<_$AppDatabase, $FoldersTable> {
+  $$FoldersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get sortIndex => $composableBuilder(
+      column: $table.sortIndex, builder: (column) => ColumnOrderings(column));
+}
+
+class $$FoldersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $FoldersTable> {
+  $$FoldersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<int> get sortIndex =>
+      $composableBuilder(column: $table.sortIndex, builder: (column) => column);
+
+  Expression<T> couponsRefs<T extends Object>(
+      Expression<T> Function($$CouponsTableAnnotationComposer a) f) {
+    final $$CouponsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.coupons,
+        getReferencedColumn: (t) => t.folderId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$CouponsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.coupons,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
 class $$FoldersTableTableManager extends RootTableManager<
     _$AppDatabase,
     $FoldersTable,
     Folder,
     $$FoldersTableFilterComposer,
     $$FoldersTableOrderingComposer,
-    $$FoldersTableProcessedTableManager,
-    $$FoldersTableInsertCompanionBuilder,
-    $$FoldersTableUpdateCompanionBuilder> {
+    $$FoldersTableAnnotationComposer,
+    $$FoldersTableCreateCompanionBuilder,
+    $$FoldersTableUpdateCompanionBuilder,
+    (Folder, $$FoldersTableReferences),
+    Folder,
+    PrefetchHooks Function({bool couponsRefs})> {
   $$FoldersTableTableManager(_$AppDatabase db, $FoldersTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$FoldersTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$FoldersTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $$FoldersTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          createFilteringComposer: () =>
+              $$FoldersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FoldersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FoldersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> name = const Value.absent(),
             Value<int> sortIndex = const Value.absent(),
@@ -619,7 +762,7 @@ class $$FoldersTableTableManager extends RootTableManager<
             sortIndex: sortIndex,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<String> id = const Value.absent(),
             required String name,
             Value<int> sortIndex = const Value.absent(),
@@ -631,73 +774,48 @@ class $$FoldersTableTableManager extends RootTableManager<
             sortIndex: sortIndex,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) =>
+                  (e.readTable(table), $$FoldersTableReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: ({couponsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (couponsRefs) db.coupons],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (couponsRefs)
+                    await $_getPrefetchedData<Folder, $FoldersTable, Coupon>(
+                        currentTable: table,
+                        referencedTable:
+                            $$FoldersTableReferences._couponsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$FoldersTableReferences(db, table, p0).couponsRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.folderId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
         ));
 }
 
-class $$FoldersTableProcessedTableManager extends ProcessedTableManager<
+typedef $$FoldersTableProcessedTableManager = ProcessedTableManager<
     _$AppDatabase,
     $FoldersTable,
     Folder,
     $$FoldersTableFilterComposer,
     $$FoldersTableOrderingComposer,
-    $$FoldersTableProcessedTableManager,
-    $$FoldersTableInsertCompanionBuilder,
-    $$FoldersTableUpdateCompanionBuilder> {
-  $$FoldersTableProcessedTableManager(super.$state);
-}
-
-class $$FoldersTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $FoldersTable> {
-  $$FoldersTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get name => $state.composableBuilder(
-      column: $state.table.name,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get sortIndex => $state.composableBuilder(
-      column: $state.table.sortIndex,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ComposableFilter couponsRefs(
-      ComposableFilter Function($$CouponsTableFilterComposer f) f) {
-    final $$CouponsTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $state.db.coupons,
-        getReferencedColumn: (t) => t.folderId,
-        builder: (joinBuilder, parentComposers) => $$CouponsTableFilterComposer(
-            ComposerState(
-                $state.db, $state.db.coupons, joinBuilder, parentComposers)));
-    return f(composer);
-  }
-}
-
-class $$FoldersTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $FoldersTable> {
-  $$FoldersTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get name => $state.composableBuilder(
-      column: $state.table.name,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get sortIndex => $state.composableBuilder(
-      column: $state.table.sortIndex,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
-typedef $$CouponsTableInsertCompanionBuilder = CouponsCompanion Function({
+    $$FoldersTableAnnotationComposer,
+    $$FoldersTableCreateCompanionBuilder,
+    $$FoldersTableUpdateCompanionBuilder,
+    (Folder, $$FoldersTableReferences),
+    Folder,
+    PrefetchHooks Function({bool couponsRefs})>;
+typedef $$CouponsTableCreateCompanionBuilder = CouponsCompanion Function({
   Value<String> id,
   required String title,
   Value<String?> description,
@@ -716,25 +834,183 @@ typedef $$CouponsTableUpdateCompanionBuilder = CouponsCompanion Function({
   Value<int> rowid,
 });
 
+final class $$CouponsTableReferences
+    extends BaseReferences<_$AppDatabase, $CouponsTable, Coupon> {
+  $$CouponsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $FoldersTable _folderIdTable(_$AppDatabase db) => db.folders
+      .createAlias($_aliasNameGenerator(db.coupons.folderId, db.folders.id));
+
+  $$FoldersTableProcessedTableManager? get folderId {
+    final $_column = $_itemColumn<String>('folder_id');
+    if ($_column == null) return null;
+    final manager = $$FoldersTableTableManager($_db, $_db.folders)
+        .filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_folderIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$CouponsTableFilterComposer
+    extends Composer<_$AppDatabase, $CouponsTable> {
+  $$CouponsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get expiryDate => $composableBuilder(
+      column: $table.expiryDate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get imagePath => $composableBuilder(
+      column: $table.imagePath, builder: (column) => ColumnFilters(column));
+
+  $$FoldersTableFilterComposer get folderId {
+    final $$FoldersTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.folderId,
+        referencedTable: $db.folders,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$FoldersTableFilterComposer(
+              $db: $db,
+              $table: $db.folders,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$CouponsTableOrderingComposer
+    extends Composer<_$AppDatabase, $CouponsTable> {
+  $$CouponsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get expiryDate => $composableBuilder(
+      column: $table.expiryDate, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get imagePath => $composableBuilder(
+      column: $table.imagePath, builder: (column) => ColumnOrderings(column));
+
+  $$FoldersTableOrderingComposer get folderId {
+    final $$FoldersTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.folderId,
+        referencedTable: $db.folders,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$FoldersTableOrderingComposer(
+              $db: $db,
+              $table: $db.folders,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$CouponsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CouponsTable> {
+  $$CouponsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get expiryDate => $composableBuilder(
+      column: $table.expiryDate, builder: (column) => column);
+
+  GeneratedColumn<String> get imagePath =>
+      $composableBuilder(column: $table.imagePath, builder: (column) => column);
+
+  $$FoldersTableAnnotationComposer get folderId {
+    final $$FoldersTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.folderId,
+        referencedTable: $db.folders,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$FoldersTableAnnotationComposer(
+              $db: $db,
+              $table: $db.folders,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
 class $$CouponsTableTableManager extends RootTableManager<
     _$AppDatabase,
     $CouponsTable,
     Coupon,
     $$CouponsTableFilterComposer,
     $$CouponsTableOrderingComposer,
-    $$CouponsTableProcessedTableManager,
-    $$CouponsTableInsertCompanionBuilder,
-    $$CouponsTableUpdateCompanionBuilder> {
+    $$CouponsTableAnnotationComposer,
+    $$CouponsTableCreateCompanionBuilder,
+    $$CouponsTableUpdateCompanionBuilder,
+    (Coupon, $$CouponsTableReferences),
+    Coupon,
+    PrefetchHooks Function({bool folderId})> {
   $$CouponsTableTableManager(_$AppDatabase db, $CouponsTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$CouponsTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$CouponsTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $$CouponsTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          createFilteringComposer: () =>
+              $$CouponsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CouponsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CouponsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> title = const Value.absent(),
             Value<String?> description = const Value.absent(),
@@ -752,7 +1028,7 @@ class $$CouponsTableTableManager extends RootTableManager<
             imagePath: imagePath,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<String> id = const Value.absent(),
             required String title,
             Value<String?> description = const Value.absent(),
@@ -770,106 +1046,64 @@ class $$CouponsTableTableManager extends RootTableManager<
             imagePath: imagePath,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) =>
+                  (e.readTable(table), $$CouponsTableReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: ({folderId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (folderId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.folderId,
+                    referencedTable:
+                        $$CouponsTableReferences._folderIdTable(db),
+                    referencedColumn:
+                        $$CouponsTableReferences._folderIdTable(db).id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ));
 }
 
-class $$CouponsTableProcessedTableManager extends ProcessedTableManager<
+typedef $$CouponsTableProcessedTableManager = ProcessedTableManager<
     _$AppDatabase,
     $CouponsTable,
     Coupon,
     $$CouponsTableFilterComposer,
     $$CouponsTableOrderingComposer,
-    $$CouponsTableProcessedTableManager,
-    $$CouponsTableInsertCompanionBuilder,
-    $$CouponsTableUpdateCompanionBuilder> {
-  $$CouponsTableProcessedTableManager(super.$state);
-}
+    $$CouponsTableAnnotationComposer,
+    $$CouponsTableCreateCompanionBuilder,
+    $$CouponsTableUpdateCompanionBuilder,
+    (Coupon, $$CouponsTableReferences),
+    Coupon,
+    PrefetchHooks Function({bool folderId})>;
 
-class $$CouponsTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $CouponsTable> {
-  $$CouponsTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get title => $state.composableBuilder(
-      column: $state.table.title,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get description => $state.composableBuilder(
-      column: $state.table.description,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<DateTime> get expiryDate => $state.composableBuilder(
-      column: $state.table.expiryDate,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get imagePath => $state.composableBuilder(
-      column: $state.table.imagePath,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  $$FoldersTableFilterComposer get folderId {
-    final $$FoldersTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.folderId,
-        referencedTable: $state.db.folders,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) => $$FoldersTableFilterComposer(
-            ComposerState(
-                $state.db, $state.db.folders, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
-class $$CouponsTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $CouponsTable> {
-  $$CouponsTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get title => $state.composableBuilder(
-      column: $state.table.title,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get description => $state.composableBuilder(
-      column: $state.table.description,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<DateTime> get expiryDate => $state.composableBuilder(
-      column: $state.table.expiryDate,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get imagePath => $state.composableBuilder(
-      column: $state.table.imagePath,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  $$FoldersTableOrderingComposer get folderId {
-    final $$FoldersTableOrderingComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.folderId,
-        referencedTable: $state.db.folders,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) =>
-            $$FoldersTableOrderingComposer(ComposerState(
-                $state.db, $state.db.folders, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
-class _$AppDatabaseManager {
+class $AppDatabaseManager {
   final _$AppDatabase _db;
-  _$AppDatabaseManager(this._db);
+  $AppDatabaseManager(this._db);
   $$FoldersTableTableManager get folders =>
       $$FoldersTableTableManager(_db, _db.folders);
   $$CouponsTableTableManager get coupons =>
