@@ -4,6 +4,7 @@ import 'package:coupon_place/repository/folder_repository.dart';
 import 'package:coupon_place/models/folder.dart' as model;
 import 'package:coupon_place/widgets/folder_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import '../l10n/app_localizations.dart';
 import '../widgets/menu_item.dart';
 
@@ -250,49 +251,29 @@ class _NavigationPageState extends State<NavigationPage> {
                   folders.length,
                   (index) {
                     final folder = folders[index];
-                    return Dismissible(
-                      key: Key(folder.id),
-                      direction: DismissDirection.endToStart,
-                      background: Container(
-                        color: Colors.red,
+                    return Slidable(
+                      key: ValueKey(folder.id),
+                      endActionPane: ActionPane(
+                        motion: ScrollMotion(),
+                        children: [
+                          SlidableAction(
+                            onPressed: (context) {},
+                            backgroundColor: Color(0xFF7BC043),
+                            foregroundColor: Colors.white,
+                            icon: Icons.archive,
+                            label: 'Archive',
+                          ),
+                          SlidableAction(
+                            onPressed: (context) {},
+                            backgroundColor: Color(0xFF0392CF),
+                            foregroundColor: Colors.white,
+                            icon: Icons.save,
+                            label: 'Save',
+                          ),
+                        ],
                       ),
-                      confirmDismiss: (direction) async {
-                        return await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text("Confirm"),
-                              content: const Text(
-                                  "Are you sure you wish to delete this item?"),
-                              actions: <Widget>[
-                                TextButton(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(true),
-                                    child: const Text("DELETE")),
-                                TextButton(
-                                  onPressed: () =>
-                                      Navigator.of(context).pop(false),
-                                  child: const Text("CANCEL"),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      onDismissed: (direction) {
-                        folderRepository.deleteFolder(folder);
-                        setState(() {
-                          selectedFolder = null;
-                        });
-                      },
                       child: FolderItem(
-                        key: ValueKey(folder.id),
-                        icon: Icons.folder,
-                        title: folder.name,
-                        count: 0,
-                        editMode: editMode,
-                        onEdit: () => (),
-                        onDelete: () => (),
+                        folder: folder,
                         onDragStart: ReorderableDragStartListener(
                           index: index,
                           child: Icon(Icons.drag_handle),
